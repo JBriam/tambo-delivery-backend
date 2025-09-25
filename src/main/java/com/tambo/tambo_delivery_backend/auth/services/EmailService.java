@@ -37,8 +37,8 @@ public class EmailService {
     @Value("${backend.base-url}")
     private String backendUrl;
 
-    @Value("${fronted.base-url}")
-    private String frontedUrl;
+    @Value("${frontend.base-url}")
+    private String frontendUrl;
 
     public String sendEmail(User user) {
         try {
@@ -82,7 +82,7 @@ public class EmailService {
 
             Context context = new Context();
             context.setVariable("username", user.getUsername());
-            context.setVariable("resetUrl", frontedUrl + "/v1/reset-password?token=" + token);
+            context.setVariable("resetUrl", frontendUrl + "/v1/reset-password?token=" + token);
 
             String htmlContent = templateEngine.process("reset-password-email", context);
 

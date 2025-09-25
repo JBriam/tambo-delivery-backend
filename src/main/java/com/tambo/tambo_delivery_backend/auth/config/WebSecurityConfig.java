@@ -90,11 +90,11 @@ public class WebSecurityConfig {
                 return PasswordEncoderFactories.createDelegatingPasswordEncoder();
         }
 
-        // Configuarion de CORS para permitir solicitudes desde el fronted
+        // Configuración de CORS para permitir solicitudes desde el frontend
         @Bean
         public CorsConfigurationSource corsConfigurationSource() {
                 CorsConfiguration configuration = new CorsConfiguration();
-                configuration.addAllowedOrigin("http://localhost:3000"); // URL del fronted
+                configuration.addAllowedOrigin("http://localhost:3000"); // URL del frontend
                 configuration.addAllowedMethod("*"); // GET, POST, OPTIONS, PUT, DELETE
                 configuration.addAllowedHeader("*"); // Authorization, Content-Type, etc.
                 configuration.setAllowCredentials(true); // Si usás cookies o auth headers
