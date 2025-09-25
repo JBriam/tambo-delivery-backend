@@ -1,0 +1,17 @@
+package com.tambo.tambo_delivery_backend.auth.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class LoginResponse {
+
+    private int code;
+    private String message;
+    private String token;
+}

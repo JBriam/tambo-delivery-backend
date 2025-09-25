@@ -1,0 +1,101 @@
+<!-- src\main\resources\templates\email-verification.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verificación de Email</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        line-height: 1.6;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+      }
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px #b12a8f36;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+      }
+      .header {
+        text-align: center;
+        padding: 20px 0;
+        border-bottom: 1px solid #eeeeee;
+      }
+      .logo {
+        max-width: 150px;
+        margin-bottom: 10px;
+      }
+      .content {
+        padding: 20px;
+      }
+      .verification-code {
+        background: #f0f7ff;
+        border-left: 4px solid #3b82f6;
+        padding: 15px;
+        margin: 20px 0;
+        font-size: 24px;
+        font-weight: bold;
+        color: #1e40af;
+        text-align: center;
+      }
+      .footer {
+        text-align: center;
+        padding: 20px;
+        font-size: 12px;
+        color: #666;
+        border-top: 1px solid #eeeeee;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <img
+          src="https://marketing-peru.beglobal.biz/wp-content/uploads/2024/11/logo-tambo.png"
+          alt="Tambo Support"
+          class="logo"
+        />
+        <h1>Verificación de correo electrónico</h1>
+      </div>
+
+      <div class="content">
+        <p>Hola <span th:text="${username}"></span>,</p>
+        <p>
+          Gracias por registrarte en nuestro aplicativo web. Por favor utiliza
+          el siguiente código para verificar tu dirección de correo electrónico:
+        </p>
+
+        <div class="verification-code" th:text="${verificationCode}"></div>
+
+        <p>
+          Este código expirará en 1 hora. Si no has solicitado esta
+          verificación, por favor ignora este mensaje.
+        </p>
+
+        <p>
+          Si tienes algún problema, no dudes en contactar con nuestro equipo de
+          soporte.
+        </p>
+
+        <p>
+          Saludos cordiales,<br />El equipo de <strong>Tambo Support</strong>
+        </p>
+      </div>
+
+      <div class="footer">
+        <p>© 2023 Tambo. Todos los derechos reservados.</p>
+        <p>
+          Si deseas más información,
+          <a th:href="${baseUrl}">haz clic aquí</a>.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
