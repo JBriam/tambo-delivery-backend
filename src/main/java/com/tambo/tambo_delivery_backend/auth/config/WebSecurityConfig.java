@@ -94,7 +94,7 @@ public class WebSecurityConfig {
         @Bean
         public CorsConfigurationSource corsConfigurationSource() {
                 CorsConfiguration configuration = new CorsConfiguration();
-                configuration.addAllowedOrigin("http://localhost:3000"); // URL del frontend
+                configuration.addAllowedOrigin("http://localhost:4200"); // URL del frontend
                 configuration.addAllowedMethod("*"); // GET, POST, OPTIONS, PUT, DELETE
                 configuration.addAllowedHeader("*"); // Authorization, Content-Type, etc.
                 configuration.setAllowCredentials(true); // Si usás cookies o auth headers
