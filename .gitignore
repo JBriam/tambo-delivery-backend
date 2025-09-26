@@ -36,3 +36,7 @@ build/
 .env
 .env.local
 .env.production
+
+### Logs ###
+logs/
+*.log
