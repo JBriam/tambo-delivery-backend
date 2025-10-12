@@ -23,23 +23,77 @@ public class AddressController {
     // Obtener todas las direcciones del usuario autenticado
     @GetMapping
     public ResponseEntity<List<AddressDTO>> getUserAddresses(Principal principal) {
-        List<AddressDTO> addresses = addressService.getUserAddresses(principal);
-        return ResponseEntity.ok(addresses);
+        try {
+            List<AddressDTO> addresses = addressService.getUserAddresses(principal);
+            return ResponseEntity.ok(addresses);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    // Obtener una dirección específica por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<AddressDTO> getAddressById(@PathVariable UUID id, Principal principal) {
+        try {
+            AddressDTO address = addressService.getAddressById(id, principal);
+            return ResponseEntity.ok(address);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     // Crear una nueva dirección
     @PostMapping
     public ResponseEntity<AddressDTO> createAddress(@RequestBody AddressRequestDTO addressRequest,
             Principal principal) {
-        AddressDTO address = addressService.createAddress(addressRequest, principal);
-        return new ResponseEntity<>(address, HttpStatus.OK);
+        try {
+            AddressDTO address = addressService.createAddress(addressRequest, principal);
+            return new ResponseEntity<>(address, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    // Actualizar una dirección existente
+    @PutMapping("/{id}")
+    public ResponseEntity<AddressDTO> updateAddress(@PathVariable UUID id, 
+                                                   @RequestBody AddressRequestDTO addressRequest,
+                                                   Principal principal) {
+        try {
+            AddressDTO address = addressService.updateAddress(id, addressRequest, principal);
+            return ResponseEntity.ok(address);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    // Marcar una dirección como primaria
+    @PutMapping("/{id}/primary")
+    public ResponseEntity<AddressDTO> setPrimaryAddress(@PathVariable UUID id, Principal principal) {
+        try {
+            AddressDTO address = addressService.setPrimaryAddress(id, principal);
+            return ResponseEntity.ok(address);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     // Eliminar una dirección
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteAddress(@PathVariable UUID id) {
-        addressService.deleteAddress(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> deleteAddress(@PathVariable UUID id, Principal principal) {
+        try {
+            addressService.deleteAddress(id, principal);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
-
 }
