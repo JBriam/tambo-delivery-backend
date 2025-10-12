@@ -319,4 +319,74 @@ public class OrderService {
         return order.getOrderStatus() == OrderStatus.PENDING || order.getOrderStatus() == OrderStatus.PAID;
     }
 
+    // Obtener órdenes del usuario autenticado
+    public List<OrderDetails> getUserOrders(Principal principal) {
+        User user = (User) userDetailsService.loadUserByUsername(principal.getName());
+        return getOrdersByUser(user.getEmail());
+    }
+
+    // Obtener detalles de una orden específica con verificación de usuario
+    public OrderDetails getOrderDetailsById(UUID orderId, Principal principal) {
+        User user = (User) userDetailsService.loadUserByUsername(principal.getName());
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        
+        // Verificar que la orden pertenece al usuario
+        if (!order.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("Access denied");
+        }
+        
+        return getOrderDtoById(orderId);
+    }
+
+    // Obtener orden con verificación de usuario para PDFs
+    public Order getOrderByIdAndUser(UUID orderId, Principal principal) {
+        User user = (User) userDetailsService.loadUserByUsername(principal.getName());
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        
+        // Verificar que la orden pertenece al usuario
+        if (!order.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("Access denied");
+        }
+        
+        return order;
+    }
+
+    // Cancelar una orden
+    @Transactional
+    public OrderDetails cancelOrder(UUID orderId, Principal principal) {
+        User user = (User) userDetailsService.loadUserByUsername(principal.getName());
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        
+        // Verificar que la orden pertenece al usuario
+        if (!order.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("Access denied");
+        }
+        
+        // Verificar que la orden se puede cancelar
+        if (!canOrderBeCancelled(orderId)) {
+            throw new RuntimeException("Order cannot be cancelled in current status");
+        }
+        
+        // Actualizar estado de la orden
+        order.setOrderStatus(OrderStatus.CANCELLED);
+        
+        // Si hay payment, actualizar su estado también
+        if (order.getPayment() != null) {
+            order.getPayment().setPaymentStatus(PaymentStatus.REFUNDED);
+        }
+        
+        // Restaurar stock de productos
+        for (OrderItem item : order.getOrderItemList()) {
+            Product product = item.getProduct();
+            product.setStock(product.getStock() + item.getQuantity());
+            productService.updateProduct(product.getId(), null); // Método para actualizar producto
+        }
+        
+        orderRepository.save(order);
+        
+        return getOrderDtoById(orderId);
+    }
 }
