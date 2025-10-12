@@ -32,6 +32,8 @@ import com.tambo.tambo_delivery_backend.dto.BrandRequest;
 import com.tambo.tambo_delivery_backend.dto.CategoryButtonDTO;
 import com.tambo.tambo_delivery_backend.dto.CategoryDTO;
 import com.tambo.tambo_delivery_backend.dto.CategoryRequestDTO;
+import com.tambo.tambo_delivery_backend.dto.CategoryTypeDTO;
+import com.tambo.tambo_delivery_backend.dto.CategoryTypeRequestDTO;
 import com.tambo.tambo_delivery_backend.dto.CreateProductDtoAdmin;
 import com.tambo.tambo_delivery_backend.dto.DiscountDTO;
 import com.tambo.tambo_delivery_backend.dto.DiscountRequestDTO;
@@ -42,6 +44,7 @@ import com.tambo.tambo_delivery_backend.dto.UserRequestDtoAdmin;
 import com.tambo.tambo_delivery_backend.services.AppConfigService;
 import com.tambo.tambo_delivery_backend.services.BrandService;
 import com.tambo.tambo_delivery_backend.services.CategoryService;
+import com.tambo.tambo_delivery_backend.services.CategoryTypeService;
 import com.tambo.tambo_delivery_backend.services.DiscountService;
 import com.tambo.tambo_delivery_backend.services.ProductService;
 
@@ -69,6 +72,9 @@ public class AdminController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private CategoryTypeService categoryTypeService;
 
     @Autowired
     private AppConfigService configService;
@@ -768,5 +774,102 @@ public class AdminController {
     @DeleteMapping("/categories-buttons/{id}")
     public void deleteCategoryButton(@PathVariable UUID id) {
         configService.deleteCategoryButton(id);
+    }
+
+    // -------------- CATEGORY TYPES ------------------------------------
+
+    // Obtener todos los tipos de categoría
+    @GetMapping("/category-type/get-all")
+    public ResponseEntity<?> getAllCategoryTypes() {
+        try {
+            List<CategoryTypeDTO> categoryTypes = categoryTypeService.getAllCategoryTypes();
+            return new ResponseEntity<>(categoryTypes, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al obtener los tipos de categoría: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Obtener tipos de categoría por categoría padre
+    @GetMapping("/category-type/by-category/{categoryId}")
+    public ResponseEntity<?> getCategoryTypesByCategory(@PathVariable UUID categoryId) {
+        try {
+            List<CategoryTypeDTO> categoryTypes = categoryTypeService.getCategoryTypesByCategory(categoryId);
+            return new ResponseEntity<>(categoryTypes, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al obtener los tipos de categoría: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Obtener un tipo de categoría por ID
+    @GetMapping("/category-type/{id}")
+    public ResponseEntity<?> getCategoryTypeById(@PathVariable UUID id) {
+        try {
+            CategoryTypeDTO categoryType = categoryTypeService.getCategoryTypeById(id);
+            return new ResponseEntity<>(categoryType, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al obtener el tipo de categoría: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Crear un tipo de categoría
+    @PostMapping("/category-type/create/{categoryId}")
+    public ResponseEntity<ResponseDto> createCategoryType(@PathVariable UUID categoryId, 
+                                                         @RequestBody CategoryTypeRequestDTO request) {
+        try {
+            CategoryTypeDTO categoryType = categoryTypeService.createCategoryType(categoryId, request);
+            ResponseDto res = ResponseDto.builder()
+                    .message("Tipo de categoría creado: " + categoryType.getName())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al crear el tipo de categoría: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Actualizar un tipo de categoría
+    @PutMapping("/category-type/update/{id}")
+    public ResponseEntity<ResponseDto> updateCategoryType(@PathVariable UUID id,
+                                                         @RequestBody CategoryTypeRequestDTO request) {
+        try {
+            CategoryTypeDTO categoryType = categoryTypeService.updateCategoryType(id, request);
+            ResponseDto res = ResponseDto.builder()
+                    .message("Tipo de categoría actualizado: " + categoryType.getName())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al actualizar el tipo de categoría: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Eliminar un tipo de categoría
+    @DeleteMapping("/category-type/delete/{id}")
+    public ResponseEntity<ResponseDto> deleteCategoryType(@PathVariable UUID id) {
+        try {
+            categoryTypeService.deleteCategoryType(id);
+            ResponseDto res = ResponseDto.builder()
+                    .message("Tipo de categoría eliminado: " + id)
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al eliminar el tipo de categoría: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
     }
 }
