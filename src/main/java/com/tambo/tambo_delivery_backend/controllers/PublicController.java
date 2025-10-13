@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tambo.tambo_delivery_backend.auth.dto.ResponseDto;
+import com.tambo.tambo_delivery_backend.dto.CategoryDTO;
 import com.tambo.tambo_delivery_backend.dto.ProductDTO;
 import com.tambo.tambo_delivery_backend.dto.ProductSectionDTO;
 import com.tambo.tambo_delivery_backend.services.AppConfigService;
+import com.tambo.tambo_delivery_backend.services.CategoryService;
 import com.tambo.tambo_delivery_backend.services.ProductService;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,6 +35,9 @@ public class PublicController {
 
     @Autowired
     private AppConfigService configService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     // ------------------------------ PRODUCT -----------------------------
 
@@ -85,5 +90,46 @@ public class PublicController {
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    // ------------------------------ CATEGORIES ----------------------------
+
+    // Obtener todas las categorías (público)
+    @GetMapping("/category/get-all")
+    public ResponseEntity<?> getAllCategories() {
+        try {
+            List<CategoryDTO> categories = categoryService.getAllCategories();
+            return new ResponseEntity<>(categories, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al obtener las categorías: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Obtener productos por categoría con límite (para home page)
+    @GetMapping("/product/by-category")
+    public ResponseEntity<?> getProductsByCategory(
+            @RequestParam UUID categoryId,
+            @RequestParam(defaultValue = "6") Integer limit) {
+        
+        try {
+            List<ProductDTO> products = productService.getAllProducts(
+                categoryId, null, null, null, null, true, null
+            );
+            
+            // Limitar la cantidad de productos si se especifica
+            if (limit != null && limit > 0 && products.size() > limit) {
+                products = products.subList(0, limit);
+            }
+            
+            return new ResponseEntity<>(products, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al obtener productos por categoría: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
     }
 }
