@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import static org.springframework.security.config.Customizer.withDefaults;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -21,8 +22,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.tambo.tambo_delivery_backend.auth.exceptions.RESTAuthenticationEntryPoint;
 import com.tambo.tambo_delivery_backend.auth.helper.JWTTokenHelper;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 // Configuración de seguridad de la aplicación Spring Boot que combina autenticación JWT y OAuth2
 @Configuration // Indica que esta clase contiene configuraciones de Spring
@@ -46,7 +45,7 @@ public class WebSecurityConfig {
                                 .csrf(AbstractHttpConfigurer::disable)
                                 .authorizeHttpRequests((authorize) -> authorize
                                                 // Endpoints públicos
-                                                .requestMatchers("/api/auth/**", "/oauth2", "/api/public/**")
+                                                .requestMatchers("/api/auth/**", "/oauth2", "/api/public/**", "/api/dev/**")
                                                 .permitAll()
                                                 // Endpoints solo para ADMIN
                                                 .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
