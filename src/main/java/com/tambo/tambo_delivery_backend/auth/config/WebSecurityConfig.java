@@ -9,7 +9,6 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import static org.springframework.security.config.Customizer.withDefaults;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -44,11 +43,11 @@ public class WebSecurityConfig {
 
                                 .csrf(AbstractHttpConfigurer::disable)
                                 .authorizeHttpRequests((authorize) -> authorize
-                                                // Endpoints públicos
-                                                .requestMatchers("/api/auth/**", "/oauth2", "/api/public/**", "/api/dev/**")
-                                                .permitAll()
-                                                // Endpoints solo para ADMIN
+                                                // Endpoints solo para ADMIN (DEBE IR PRIMERO)
                                                 .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+                                                // Endpoints públicos
+                                                .requestMatchers("/api/auth/**", "/oauth2/**", "/api/public/**", "/api/dev/**")
+                                                .permitAll()
                                                 // Todos los demás endpoints requieren autenticación
                                                 .anyRequest().authenticated())
                                 .exceptionHandling(exception -> exception
@@ -61,16 +60,8 @@ public class WebSecurityConfig {
                 return http.build();
         }
 
-        // Rutas públicas que no reuieren autenticación
-        private static final String[] publicApis = {
-                        "/api/auth/**", "/api/public/**"
-        };
-
-        // Excluye completamente las rutas públicas del sistema de seguridad
-        @Bean
-        public WebSecurityCustomizer webSecurityCustomizer() {
-                return (web) -> web.ignoring().requestMatchers(publicApis);
-        }
+        // Nota: Las rutas públicas se manejan directamente en SecurityFilterChain
+        // No necesitamos WebSecurityCustomizer ya que SecurityFilterChain maneja todo
 
         // Configura el proveedor de autenticación con:
         // UserDetailsService (para cargar usuarios)

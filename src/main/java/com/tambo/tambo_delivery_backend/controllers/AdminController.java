@@ -652,6 +652,7 @@ public class AdminController {
                     .email(u.getEmail().trim())
                     .profileImageUrl(u.getProfileImageUrl())
                     .phoneNumber(u.getPhoneNumber())
+                    .enabled(u.isEnabled())
                     .authorityList(u.getAuthorities().stream()
                             .map(auth -> auth.getAuthority()).toList())
                     .build()).toList();
@@ -678,6 +679,7 @@ public class AdminController {
                     .email(user.getEmail().trim())
                     .profileImageUrl(user.getProfileImageUrl())
                     .phoneNumber(user.getPhoneNumber())
+                    .enabled(user.isEnabled())
                     .authorityList(user.getAuthorities().stream()
                             .map(auth -> auth.getAuthority()).toList())
                     .build();
