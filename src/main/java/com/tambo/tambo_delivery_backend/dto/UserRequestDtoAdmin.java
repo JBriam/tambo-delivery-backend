@@ -12,6 +12,7 @@ public class UserRequestDtoAdmin {
     private String profileImageUrl;
     private String phoneNumber;
     private String email;
+    private Boolean enabled; // Permite al admin activar/desactivar usuarios
     private List<String> roles;
 
 }

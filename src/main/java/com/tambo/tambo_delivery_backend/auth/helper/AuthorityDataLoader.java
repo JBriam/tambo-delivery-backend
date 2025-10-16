@@ -1,8 +1,7 @@
 package com.tambo.tambo_delivery_backend.auth.helper;
 
-import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
-import com.tambo.tambo_delivery_backend.auth.entities.Authority;
+
 import com.tambo.tambo_delivery_backend.auth.repositories.AuthorityRepository;
 
 @Component
@@ -19,17 +18,17 @@ public class AuthorityDataLoader {
     // iniciar la aplicación
     // @PostConstruct
     // public void loadAuthorityData() {
-    // createAuthorityIfNotFound("ADMIN", "Administrador del sistema");
-    // createAuthorityIfNotFound("USER", "Usuario estándar");
+    //     createAuthorityIfNotFound("ADMIN", "Administrador del sistema");
+    //     createAuthorityIfNotFound("USER", "Usuario estándar");
     // }
 
     // private void createAuthorityIfNotFound(String roleCode, String description) {
-    // if (!authorityRepository.existsByRoleCode(roleCode)) {
-    // Authority authority = Authority.builder()
-    // .roleCode(roleCode)
-    // .roleDescription(description)
-    // .build();
-    // authorityRepository.save(authority);
-    // }
+    //     if (!authorityRepository.existsByRoleCode(roleCode)) {
+    //         Authority authority = Authority.builder()
+    //                 .roleCode(roleCode)
+    //                 .roleDescription(description)
+    //                 .build();
+    //         authorityRepository.save(authority);
+    //     }
     // }
 }
