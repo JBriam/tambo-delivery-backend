@@ -1,5 +1,21 @@
 package com.tambo.tambo_delivery_backend.auth.controllers;
 
+import java.security.Principal;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.tambo.tambo_delivery_backend.auth.dto.UserDetailsDto;
 import com.tambo.tambo_delivery_backend.auth.dto.UserResponseDto;
 import com.tambo.tambo_delivery_backend.auth.dto.UserUpdateDto;
@@ -10,24 +26,6 @@ import com.tambo.tambo_delivery_backend.dto.OrderDetails;
 import com.tambo.tambo_delivery_backend.entities.OrderStatus;
 import com.tambo.tambo_delivery_backend.services.AddressService;
 import com.tambo.tambo_delivery_backend.services.OrderService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.security.Principal;
-import java.util.List;
-import java.util.UUID;
-
-import org.springframework.web.bind.annotation.PostMapping;
 
 // Proporcionar un endpoint seguro para que los usuarios autenticados obtengan su información de perfil
 @RestController
@@ -65,6 +63,7 @@ public class UserDetailController {
                                 .profileImageUrl(user.getProfileImageUrl())
                                 .email(user.getEmail())
                                 .phoneNumber(user.getPhoneNumber())
+                                .enabled(user.isEnabled())
                                 .authorityList(user.getAuthorities().stream()
                                                 .map(auth -> auth.getAuthority()).toList())
                                 .build();

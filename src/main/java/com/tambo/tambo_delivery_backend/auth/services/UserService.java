@@ -1,5 +1,12 @@
 package com.tambo.tambo_delivery_backend.auth.services;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ServerErrorException;
+
 import com.tambo.tambo_delivery_backend.auth.dto.RegistrationRequest;
 import com.tambo.tambo_delivery_backend.auth.dto.UserResponseDto;
 import com.tambo.tambo_delivery_backend.auth.dto.UserUpdateDto;
@@ -7,13 +14,6 @@ import com.tambo.tambo_delivery_backend.auth.entities.User;
 import com.tambo.tambo_delivery_backend.auth.helper.VerificationCodeGenerator;
 import com.tambo.tambo_delivery_backend.auth.repositories.UserDetailRepository;
 import com.tambo.tambo_delivery_backend.dto.UserRequestDtoAdmin;
-
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.web.server.ServerErrorException;
 
 @Service
 public class UserService {
@@ -224,7 +224,8 @@ public class UserService {
             user.setProfileImageUrl(request.getProfileImageUrl());
             user.setPhoneNumber(request.getPhoneNumber());
             user.setEmail(request.getEmail());
-            user.setEnabled(true);
+            // Si el admin no especifica enabled, por defecto será true
+            user.setEnabled(request.getEnabled() != null ? request.getEnabled() : true);
             user.setPassword(passwordEncoder.encode("123456789"));
             user.setProvider("manual");
             user.setAuthorities(authorityService.getRequestedAuthorities(request.getRoles()));
@@ -248,7 +249,10 @@ public class UserService {
             user.setProfileImageUrl(request.getProfileImageUrl());
             user.setPhoneNumber(request.getPhoneNumber());
             user.setEmail(request.getEmail());
-            user.setEnabled(true);
+            // Permite al admin cambiar el estado enabled del usuario
+            if (request.getEnabled() != null) {
+                user.setEnabled(request.getEnabled());
+            }
             user.setAuthorities(authorityService.getRequestedAuthorities(request.getRoles()));
 
             User update = userDetailRepository.save(user);
