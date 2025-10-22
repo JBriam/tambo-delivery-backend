@@ -1,24 +1,24 @@
 package com.tambo.tambo_delivery_backend.services;
 
-import com.tambo.tambo_delivery_backend.dto.BrandDTO;
-import com.tambo.tambo_delivery_backend.dto.BrandRequest;
-import com.tambo.tambo_delivery_backend.entities.Brand;
-import com.tambo.tambo_delivery_backend.repositories.BrandRepository;
-import com.google.common.base.Preconditions;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.collect.ImmutableList;
-
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
+import com.google.common.base.Preconditions;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.collect.ImmutableList;
+import com.tambo.tambo_delivery_backend.dto.BrandDTO;
+import com.tambo.tambo_delivery_backend.dto.BrandRequest;
+import com.tambo.tambo_delivery_backend.entities.Brand;
+import com.tambo.tambo_delivery_backend.repositories.BrandRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -31,11 +31,15 @@ public class BrandService {
     public BrandDTO createBrand(BrandRequest request) {
         Preconditions.checkNotNull(request, "La solicitud no puede ser nula");
         Preconditions.checkArgument(
-                request.getName() != null && !request.getName().trim().isEmpty(),
+                request.getName() != null && !request.getName().trim().isEmpty() &&
+                request.getDescription() != null && !request.getDescription().trim().isEmpty() &&
+                request.getImageUrl() != null && !request.getImageUrl().trim().isEmpty(),
                 "El nombre de la marca no puede estar vacío");
 
         Brand brand = new Brand();
         brand.setName(request.getName().trim());
+        brand.setDescription(request.getDescription().trim());
+        brand.setImageUrl(request.getImageUrl().trim());
 
         Brand saved = brandRepository.save(brand);
 
@@ -76,6 +80,8 @@ public class BrandService {
                 .orElseThrow(() -> new RuntimeException("Marca no encontrado"));
 
         brand.setName(request.getName());
+        brand.setDescription(request.getDescription());
+        brand.setImageUrl(request.getImageUrl());
         Brand updated = brandRepository.save(brand);
 
         // Actualizamos el caché
@@ -98,6 +104,8 @@ public class BrandService {
         BrandDTO dto = BrandDTO.builder()
                 .id(brand.getId())
                 .name(brand.getName())
+                .description(brand.getDescription())
+                .imageUrl(brand.getImageUrl())
                 .build();
         return dto;
     }
