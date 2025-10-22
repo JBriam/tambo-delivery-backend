@@ -22,7 +22,7 @@ USE `tambo_bd`;
 
 LOCK TABLES `auth_authority` WRITE;
 /*!40000 ALTER TABLE `auth_authority` DISABLE KEYS */;
-INSERT INTO `auth_authority` VALUES (_binary 'Â¥Ã¨Ã§Ã¡%B!Â\'\Ã','USER','Usuario estÃÂ¡ndar'),(_binary 'ÃQÃ¤Â¡Â¯KÂ¨Â\Â','ADMIN','Administrador del sistema');
+INSERT INTO `auth_authority` VALUES (_binary 'Â¥Ã¨Ã§Ã¡%B!Â\'\Ã','USER','Usuario estandar'),(_binary 'ÃQÃ¤Â¡Â¯KÂ¨Â\Â','ADMIN','Administrador del sistema');
 /*!40000 ALTER TABLE `auth_authority` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -42,7 +42,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `auth_user_details` WRITE;
 /*!40000 ALTER TABLE `auth_user_details` DISABLE KEYS */;
-INSERT INTO `auth_user_details` VALUES (_binary ']\Îy/@ [YeT','2025-07-07 17:48:21.289000','admin@gmail.com',_binary '','Administrador','admin',NULL,'{bcrypt}$2a$10$y6NyXMmvdlLb4JDEx5yZLO8pHzwd4t.WBVNcgEJD8tNVubGjh4Jf6','999999999',NULL,'manual',NULL,NULL,'2025-07-07 17:50:16.892000','874585');
+INSERT INTO `auth_user_details` VALUES (_binary ']\Îy/@ [YeT','2025-07-07 17:48:21.289000','admin@gmail.com',_binary '','Administrador','admin',NULL,'{bcrypt}$2a$10$y6NyXMmvdlLb4JDEx5yZLO8pHzwd4t.WBVNcgEJD8tNVubGjh4Jf6','987654321',NULL,'manual',NULL,NULL,'2025-07-07 17:50:16.892000','874585');
 /*!40000 ALTER TABLE `auth_user_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +62,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (_binary '	l��A\�L��\�A\�Y\�\�','Antojos','Antojos','Antojos'),(_binary '��T\�]Hi�h�H�q:','Helados','Helados','Helados'),(_binary '~�\�\�cA��Ie�\�Q\�','bebidas01','bebidas','Bebidas'),(_binary '~ݓ�M��\�','cer21','aaa','Cervezas'),(_binary '��I�rB\�\��C\���','Cocina','Cocina','Cocina'),(_binary '͛�b��@C\�','dasrtds','daaa','RTDs'),(_binary '�ۄiJ��','com01','ada','Comidas'),(_binary '�hF��NM�','539134','asd','Cigarros y Vapes');
+INSERT INTO `categories` VALUES (_binary '	l��A\�L��\�A\�Y\�\�','Antojos','Antojos','Antojos'),(_binary '��T\�]Hi�h�H�q:','Helados','Helados','Helados'),(_binary '~�\�\�cA��Ie�\�Q\�','bebidas01','Bebidas','Bebidas'),(_binary '~ݓ�M��\�','cer21','Cervezas','Cervezas'),(_binary '��I�rB\�\��C\���','Cocina','Cocina','Cocina'),(_binary '͛�b��@C\�','dasrtds','RTDs','RTDs'),(_binary '�ۄiJ��','com01','Comidas','Comidas'),(_binary '�hF��NM�','539134','Cigarros y Vapes','Cigarros y Vapes');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
