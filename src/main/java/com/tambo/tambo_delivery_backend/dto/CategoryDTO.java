@@ -1,12 +1,11 @@
 package com.tambo.tambo_delivery_backend.dto;
 
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -16,8 +15,8 @@ public class CategoryDTO {
 
     private UUID id;
     private String name;
-    private String code;
     private String description;
-    private List<CategoryTypeDTO> categoryTypes;
+    private String imageUrl;
+    //private List<CategoryTypeDTO> categoryTypes;
 
 }

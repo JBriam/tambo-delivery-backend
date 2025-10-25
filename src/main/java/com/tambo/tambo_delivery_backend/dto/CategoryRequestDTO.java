@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,8 +12,8 @@ import java.util.List;
 public class CategoryRequestDTO {
 
     private String name;
-    private String code;
     private String description;
-    private List<CategoryTypeRequestDTO> categoryTypes;
+    private String imageUrl;
+    //private List<CategoryTypeRequestDTO> categoryTypes;
 
 }

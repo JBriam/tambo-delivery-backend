@@ -1,5 +1,13 @@
 package com.tambo.tambo_delivery_backend.services;
 
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.tambo.tambo_delivery_backend.dto.CategoryDTO;
 import com.tambo.tambo_delivery_backend.dto.CategoryRequestDTO;
 import com.tambo.tambo_delivery_backend.entities.Category;
@@ -7,13 +15,6 @@ import com.tambo.tambo_delivery_backend.entities.CategoryType;
 import com.tambo.tambo_delivery_backend.mapper.CategoryMapper;
 import com.tambo.tambo_delivery_backend.repositories.CategoryRepository;
 import com.tambo.tambo_delivery_backend.repositories.ProductRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -61,21 +62,21 @@ public class CategoryService {
         }
 
         existing.setName(dto.getName());
-        existing.setCode(dto.getCode());
         existing.setDescription(dto.getDescription());
+        existing.setImageUrl(dto.getImageUrl());
 
         // 2) Ahora sí remueve los tipos antiguos
         existing.getCategoryTypes().clear();
 
         // 3) Agrega los nuevos tipos
-        dto.getCategoryTypes().forEach(typeDTO -> {
-            var type = new com.tambo.tambo_delivery_backend.entities.CategoryType();
-            type.setName(typeDTO.getName());
-            type.setCode(typeDTO.getCode());
-            type.setDescription(typeDTO.getDescription());
-            type.setCategory(existing);
-            existing.getCategoryTypes().add(type);
-        });
+        // dto.getCategoryTypes().forEach(typeDTO -> {
+        //     var type = new com.tambo.tambo_delivery_backend.entities.CategoryType();
+        //     type.setName(typeDTO.getName());
+        //     type.setCode(typeDTO.getCode());
+        //     type.setDescription(typeDTO.getDescription());
+        //     type.setCategory(existing);
+        //     existing.getCategoryTypes().add(type);
+        // });
 
         // 4) Guarda la categoría con sus tipos actualizados
         Category updated = categoryRepository.save(existing);

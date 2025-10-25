@@ -22,7 +22,7 @@ USE `tambo_bd`;
 
 LOCK TABLES `auth_authority` WRITE;
 /*!40000 ALTER TABLE `auth_authority` DISABLE KEYS */;
-INSERT INTO `auth_authority` VALUES (_binary 'Â¥Ã¨Ã§Ã¡%B!Â\'\Ã','USER','Usuario estandar'),(_binary 'ÃQÃ¤Â¡Â¯KÂ¨Â\Â','ADMIN','Administrador del sistema');
+INSERT INTO `auth_authority` VALUES (_binary 'Â¥Ã¨Ã§Ã¡%B!Â\'\Ã','USER','Usuario estándar'),(_binary 'ÃQÃ¤Â¡Â¯KÂ¨Â\Â','ADMIN','Administrador del sistema');
 /*!40000 ALTER TABLE `auth_authority` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -52,7 +52,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `brands` WRITE;
 /*!40000 ALTER TABLE `brands` DISABLE KEYS */;
-INSERT INTO `brands` VALUES (_binary '��I��8Im','Marca Prueba');
+INSERT INTO `brands` VALUES (_binary '��I��8Im','','https://www.svgrepo.com/show/489282/brand.svg','Marca Prueba');
 /*!40000 ALTER TABLE `brands` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,7 +62,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (_binary '	l��A\�L��\�A\�Y\�\�','Antojos','Antojos','Antojos'),(_binary '��T\�]Hi�h�H�q:','Helados','Helados','Helados'),(_binary '~�\�\�cA��Ie�\�Q\�','bebidas01','Bebidas','Bebidas'),(_binary '~ݓ�M��\�','cer21','Cervezas','Cervezas'),(_binary '��I�rB\�\��C\���','Cocina','Cocina','Cocina'),(_binary '͛�b��@C\�','dasrtds','RTDs','RTDs'),(_binary '�ۄiJ��','com01','Comidas','Comidas'),(_binary '�hF��NM�','539134','Cigarros y Vapes','Cigarros y Vapes');
+INSERT INTO `categories` VALUES (_binary '	l��A\�L��\�A\�Y\�\�','Antojos','https://tofuu.getjusto.com/orioneat-local/resized2/6k43obvgrNS4RaP7j-300-x.webp','Antojos'),(_binary '��T\�]Hi�h�H�q:','Helados','https://tofuu.getjusto.com/orioneat-local/resized2/62N55QNnPgEu45g6z-300-x.webp','Helados'),(_binary '~�\�\�cA��Ie�\�Q\�','bebidas01','https://tofuu.getjusto.com/orioneat-local/resized2/8coyEW7LbBscZofe3-300-x.webp','Bebidas'),(_binary '~ݓ�M��\�','cer21','https://tofuu.getjusto.com/orioneat-local/resized2/BtyHGt48sAwsmuqno-300-x.webp','Cervezas'),(_binary '��I�rB\�\��C\���','Productos para la despensa del hogar','https://tofuu.getjusto.com/orioneat-local/resized2/ZLMEGkLj3oYEwNDqQ-300-x.webp','Despensa'),(_binary '͛�b��@C\�','dasrtds','https://tofuu.getjusto.com/orioneat-local/resized2/9XuXRYFA8NPj2gj55-300-x.webp','RTDs'),(_binary '�ۄiJ��','com01','https://tofuu.getjusto.com/orioneat-local/resized2/KRjPLJhsYR9cFfAQF-300-x.webp','Comidas'),(_binary '�hF��NM�','539134','https://tofuu.getjusto.com/orioneat-local/resized2/BbkePtKQWcEHsf5oz-300-x.webp','Cigarros y Vapes');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
