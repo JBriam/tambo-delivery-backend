@@ -1,5 +1,6 @@
 package com.tambo.tambo_delivery_backend.dto;
 
+import java.util.List;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -17,6 +18,6 @@ public class CategoryDTO {
     private String name;
     private String description;
     private String imageUrl;
-    //private List<CategoryTypeDTO> categoryTypes;
+    private List<CategoryTypeDTO> categoryTypes; // Si quieres que el cliente vea los tipos de categoría cuando consulta una categoría
 
 }
