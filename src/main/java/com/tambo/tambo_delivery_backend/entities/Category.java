@@ -1,5 +1,6 @@
 package com.tambo.tambo_delivery_backend.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,6 +38,7 @@ public class Category {
     private String imageUrl;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CategoryType> categoryTypes;
+    @Builder.Default
+    private List<CategoryType> categoryTypes = new ArrayList<>();
 
 }

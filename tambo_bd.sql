@@ -62,7 +62,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
-INSERT INTO `categories` VALUES (_binary '	l��A\�L��\�A\�Y\�\�','Antojos','https://tofuu.getjusto.com/orioneat-local/resized2/6k43obvgrNS4RaP7j-300-x.webp','Antojos'),(_binary '��T\�]Hi�h�H�q:','Helados','https://tofuu.getjusto.com/orioneat-local/resized2/62N55QNnPgEu45g6z-300-x.webp','Helados'),(_binary '~�\�\�cA��Ie�\�Q\�','bebidas01','https://tofuu.getjusto.com/orioneat-local/resized2/8coyEW7LbBscZofe3-300-x.webp','Bebidas'),(_binary '~ݓ�M��\�','cer21','https://tofuu.getjusto.com/orioneat-local/resized2/BtyHGt48sAwsmuqno-300-x.webp','Cervezas'),(_binary '��I�rB\�\��C\���','Productos para la despensa del hogar','https://tofuu.getjusto.com/orioneat-local/resized2/ZLMEGkLj3oYEwNDqQ-300-x.webp','Despensa'),(_binary '͛�b��@C\�','dasrtds','https://tofuu.getjusto.com/orioneat-local/resized2/9XuXRYFA8NPj2gj55-300-x.webp','RTDs'),(_binary '�ۄiJ��','com01','https://tofuu.getjusto.com/orioneat-local/resized2/KRjPLJhsYR9cFfAQF-300-x.webp','Comidas'),(_binary '�hF��NM�','539134','https://tofuu.getjusto.com/orioneat-local/resized2/BbkePtKQWcEHsf5oz-300-x.webp','Cigarros y Vapes');
+INSERT INTO `categories` VALUES (_binary '	l��A\�L��\�A\�Y\�\�','Satisface deseos repentinos y específicos de alimentos, tanto dulces como salados','https://tofuu.getjusto.com/orioneat-local/resized2/6k43obvgrNS4RaP7j-300-x.webp','Antojos'),(_binary '��T\�]Hi�h�H�q:','Postres congelados, hechos generalmente a base de leche o agua, endulzados y saborizados con ingredientes como frutas, chocolate o vainilla','https://tofuu.getjusto.com/orioneat-local/resized2/62N55QNnPgEu45g6z-300-x.webp','Helados'),(_binary '~�\�\�cA��Ie�\�Q\�','Todos los líquidos consumibles que pueden ser naturales o artificiales, como agua, refrescos y jugos','https://tofuu.getjusto.com/orioneat-local/resized2/8coyEW7LbBscZofe3-300-x.webp','Bebidas'),(_binary '~ݓ�M��\�','Bebida alcohólica, no destilada, de sabor amargo, que se fabrica con granos de cebada germinados u otros cereales','https://tofuu.getjusto.com/orioneat-local/resized2/BtyHGt48sAwsmuqno-300-x.webp','Cervezas'),(_binary '��I�rB\�\��C\���','Productos para la despensa o reservas del hogar','https://tofuu.getjusto.com/orioneat-local/resized2/ZLMEGkLj3oYEwNDqQ-300-x.webp','Despensa'),(_binary '͛�b��@C\�','Cualquier bebida, con o sin alcohol, que viene premezclada y está lista para consumir directamente de su envase','https://tofuu.getjusto.com/orioneat-local/resized2/9XuXRYFA8NPj2gj55-300-x.webp','RTDs'),(_binary '�ۄiJ��','Alimentos preparados para consumir al instante','https://tofuu.getjusto.com/orioneat-local/resized2/KRjPLJhsYR9cFfAQF-300-x.webp','Comidas'),(_binary '�hF��NM�','Productos ideales para personas fumadoras','https://tofuu.getjusto.com/orioneat-local/resized2/BbkePtKQWcEHsf5oz-300-x.webp','Cigarros y Vapes');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,11 +70,11 @@ UNLOCK TABLES;
 -- Dumping data for table `category_type`
 --
 
-LOCK TABLES `category_type` WRITE;
-/*!40000 ALTER TABLE `category_type` DISABLE KEYS */;
-INSERT INTO `category_type` VALUES (_binary 'Yd�q�Ce�\�','sdad2','asdas','Sub categoria 1',_binary '�hF��NM�');
-/*!40000 ALTER TABLE `category_type` ENABLE KEYS */;
-UNLOCK TABLES;
+-- LOCK TABLES `category_type` WRITE;
+-- /*!40000 ALTER TABLE `category_type` DISABLE KEYS */;
+-- INSERT INTO `category_type` VALUES (_binary 'Yd�q�Ce�\�','sdad2','asdas','Sub categoria 1',_binary '�hF��NM�');
+-- /*!40000 ALTER TABLE `category_type` ENABLE KEYS */;
+-- UNLOCK TABLES;
 
 --
 -- Dumping data for table `discount`
