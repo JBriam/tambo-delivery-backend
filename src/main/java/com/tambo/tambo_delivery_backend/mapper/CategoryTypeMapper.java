@@ -13,7 +13,6 @@ public class CategoryTypeMapper {
     public static CategoryType toEntity(CategoryTypeRequestDTO dto, Category category) {
         CategoryType categoryType = new CategoryType();
         categoryType.setName(dto.getName());
-        categoryType.setCode(dto.getCode());
         categoryType.setDescription(dto.getDescription());
         categoryType.setCategory(category);
 
@@ -24,7 +23,6 @@ public class CategoryTypeMapper {
         return CategoryTypeDTO.builder()
                 .id(categoryType.getId())
                 .name(categoryType.getName())
-                .code(categoryType.getCode())
                 .description(categoryType.getDescription())
                 .build();
     }

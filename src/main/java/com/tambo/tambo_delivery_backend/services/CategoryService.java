@@ -1,28 +1,24 @@
 package com.tambo.tambo_delivery_backend.services;
 
-import com.tambo.tambo_delivery_backend.dto.CategoryDTO;
-import com.tambo.tambo_delivery_backend.dto.CategoryRequestDTO;
-import com.tambo.tambo_delivery_backend.entities.Category;
-import com.tambo.tambo_delivery_backend.entities.CategoryType;
-import com.tambo.tambo_delivery_backend.mapper.CategoryMapper;
-import com.tambo.tambo_delivery_backend.repositories.CategoryRepository;
-import com.tambo.tambo_delivery_backend.repositories.ProductRepository;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import com.tambo.tambo_delivery_backend.dto.CategoryDTO;
+import com.tambo.tambo_delivery_backend.dto.CategoryRequestDTO;
+import com.tambo.tambo_delivery_backend.entities.Category;
+import com.tambo.tambo_delivery_backend.mapper.CategoryMapper;
+import com.tambo.tambo_delivery_backend.repositories.CategoryRepository;
 
 @Service
 public class CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
-
-    @Autowired
-    private ProductRepository productRepository;
 
     // Obtener todas las categorias
     public List<CategoryDTO> getAllCategories() {
@@ -39,6 +35,7 @@ public class CategoryService {
     }
 
     // Crear una categoria
+    @Transactional
     public CategoryDTO createCategory(CategoryRequestDTO dto) {
         Category category = CategoryMapper.toEntity(dto);
         Category saved = categoryRepository.save(category);
@@ -51,33 +48,27 @@ public class CategoryService {
         Category existing = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
 
-        // 1) Desvincula productos de los tipos que vamos a eliminar
-        for (CategoryType oldType : existing.getCategoryTypes()) {
-            productRepository.findAllByCategoryType(oldType)
-                    .forEach(prod -> {
-                        prod.setCategoryType(null);
-                        productRepository.save(prod);
-                    });
+        // Actualizar campos básicos
+        existing.setName(dto.getName());
+        existing.setDescription(dto.getDescription());
+        existing.setImageUrl(dto.getImageUrl());
+
+        // Actualizar tipos de categoría
+        if (dto.getCategoryTypes() != null) {
+            // Limpiar los tipos existentes
+            existing.getCategoryTypes().clear();
+
+            // Agregar los nuevos tipos
+            dto.getCategoryTypes().forEach(typeDTO -> {
+                var type = new com.tambo.tambo_delivery_backend.entities.CategoryType();
+                type.setName(typeDTO.getName());
+                type.setDescription(typeDTO.getDescription());
+                type.setCategory(existing);
+                existing.getCategoryTypes().add(type);
+            });
         }
 
-        existing.setName(dto.getName());
-        existing.setCode(dto.getCode());
-        existing.setDescription(dto.getDescription());
-
-        // 2) Ahora sí remueve los tipos antiguos
-        existing.getCategoryTypes().clear();
-
-        // 3) Agrega los nuevos tipos
-        dto.getCategoryTypes().forEach(typeDTO -> {
-            var type = new com.tambo.tambo_delivery_backend.entities.CategoryType();
-            type.setName(typeDTO.getName());
-            type.setCode(typeDTO.getCode());
-            type.setDescription(typeDTO.getDescription());
-            type.setCategory(existing);
-            existing.getCategoryTypes().add(type);
-        });
-
-        // 4) Guarda la categoría con sus tipos actualizados
+        // Guardar cambios
         Category updated = categoryRepository.save(existing);
         return CategoryMapper.toDTO(updated);
     }

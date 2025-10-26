@@ -7,7 +7,7 @@ import com.tambo.tambo_delivery_backend.exceptions.ResourceNotFoundEx;
 import com.tambo.tambo_delivery_backend.mapper.ProductMapper;
 import com.tambo.tambo_delivery_backend.repositories.BrandRepository;
 import com.tambo.tambo_delivery_backend.repositories.CategoryRepository;
-import com.tambo.tambo_delivery_backend.repositories.CategoryTypeRepositoty;
+import com.tambo.tambo_delivery_backend.repositories.CategoryTypeRepository;
 import com.tambo.tambo_delivery_backend.repositories.DiscountRepository;
 import com.tambo.tambo_delivery_backend.repositories.ProductRepository;
 import com.tambo.tambo_delivery_backend.specification.ProductSpecification;
@@ -33,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
 
         private final ProductRepository productRepository;
         private final CategoryRepository categoryRepository;
-        private final CategoryTypeRepositoty categoryTypeRepository;
+        private final CategoryTypeRepository categoryTypeRepository;
         private final DiscountRepository discountRepository;
         private final BrandRepository brandRepository;
 

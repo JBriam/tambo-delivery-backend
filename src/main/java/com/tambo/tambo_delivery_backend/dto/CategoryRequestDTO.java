@@ -1,11 +1,11 @@
 package com.tambo.tambo_delivery_backend.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -14,8 +14,8 @@ import java.util.List;
 public class CategoryRequestDTO {
 
     private String name;
-    private String code;
     private String description;
-    private List<CategoryTypeRequestDTO> categoryTypes;
+    private String imageUrl;
+    private List<CategoryTypeRequestDTO> categoryTypes; // Lista de tipos de categoría a crear
 
 }

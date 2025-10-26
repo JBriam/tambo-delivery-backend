@@ -1,5 +1,7 @@
 package com.tambo.tambo_delivery_backend.dto;
 
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +13,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CategoryTypeRequestDTO {
     private String name;
-    private String code;
     private String description;
+    private UUID categoryId; // ID de la categoría padre
 }
