@@ -450,7 +450,7 @@ public class AdminController {
     // ------------------------------ PRODUCT -----------------------------
 
     // Obtener todos los productos por filtros
-    @GetMapping("/product")
+    @GetMapping("/product/get-all")
     public ResponseEntity<?> getAllProducts(
             @RequestParam(required = false) UUID categoryId,
             @RequestParam(required = false) UUID typeId,
