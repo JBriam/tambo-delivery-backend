@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tambo.tambo_delivery_backend.dto.ProductDTO;
 import com.tambo.tambo_delivery_backend.services.ExportService;
 import com.tambo.tambo_delivery_backend.services.OrderService;
 import com.tambo.tambo_delivery_backend.services.ProductService;
+import com.tambo.tambo_delivery_backend.dto.response.ProductDTO;
 import com.tambo.tambo_delivery_backend.entities.Order;
 
 @RestController

@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tambo.tambo_delivery_backend.dto.DiscountDTO;
-import com.tambo.tambo_delivery_backend.dto.DiscountRequestDTO;
+import com.tambo.tambo_delivery_backend.dto.request.DiscountRequestDTO;
+import com.tambo.tambo_delivery_backend.dto.response.DiscountDTO;
 import com.tambo.tambo_delivery_backend.entities.Discount;
 import com.tambo.tambo_delivery_backend.mapper.DiscountMapper;
 import com.tambo.tambo_delivery_backend.repositories.DiscountRepository;

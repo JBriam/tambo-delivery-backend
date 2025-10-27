@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tambo.tambo_delivery_backend.auth.dto.UserDetailsDto;
-import com.tambo.tambo_delivery_backend.auth.dto.UserResponseDto;
-import com.tambo.tambo_delivery_backend.auth.dto.UserUpdateDto;
+import com.tambo.tambo_delivery_backend.auth.dto.request.UserUpdateDto;
+import com.tambo.tambo_delivery_backend.auth.dto.response.UserDetailsDto;
+import com.tambo.tambo_delivery_backend.auth.dto.response.UserResponseDto;
 import com.tambo.tambo_delivery_backend.auth.entities.User;
 import com.tambo.tambo_delivery_backend.auth.services.UserService;
-import com.tambo.tambo_delivery_backend.dto.AddressDTO;
-import com.tambo.tambo_delivery_backend.dto.OrderDetails;
+import com.tambo.tambo_delivery_backend.dto.response.AddressDTO;
+import com.tambo.tambo_delivery_backend.dto.response.OrderDetails;
 import com.tambo.tambo_delivery_backend.entities.OrderStatus;
 import com.tambo.tambo_delivery_backend.services.AddressService;
 import com.tambo.tambo_delivery_backend.services.OrderService;

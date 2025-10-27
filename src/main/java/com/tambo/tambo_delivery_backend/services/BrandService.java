@@ -13,8 +13,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
-import com.tambo.tambo_delivery_backend.dto.BrandDTO;
-import com.tambo.tambo_delivery_backend.dto.BrandRequest;
+import com.tambo.tambo_delivery_backend.dto.request.BrandRequest;
+import com.tambo.tambo_delivery_backend.dto.response.BrandDTO;
 import com.tambo.tambo_delivery_backend.entities.Brand;
 import com.tambo.tambo_delivery_backend.repositories.BrandRepository;
 
@@ -31,9 +31,7 @@ public class BrandService {
     public BrandDTO createBrand(BrandRequest request) {
         Preconditions.checkNotNull(request, "La solicitud no puede ser nula");
         Preconditions.checkArgument(
-                request.getName() != null && !request.getName().trim().isEmpty() &&
-                request.getDescription() != null && !request.getDescription().trim().isEmpty() &&
-                request.getImageUrl() != null && !request.getImageUrl().trim().isEmpty(),
+                request.getName() != null && !request.getName().trim().isEmpty(),
                 "El nombre de la marca no puede estar vacío");
 
         Brand brand = new Brand();

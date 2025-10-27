@@ -1,8 +1,8 @@
 package com.tambo.tambo_delivery_backend.mapper;
 // com.tambo.tambo_delivery_backend.mapper.SliderImageMapper
 
+import com.tambo.tambo_delivery_backend.dto.response.SliderImageDTO;
 import com.tambo.tambo_delivery_backend.entities.SliderImage;
-import com.tambo.tambo_delivery_backend.dto.SliderImageDTO;
 
 public class SliderImageMapper {
 

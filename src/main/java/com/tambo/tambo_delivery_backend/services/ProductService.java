@@ -1,7 +1,7 @@
 package com.tambo.tambo_delivery_backend.services;
 
-import com.tambo.tambo_delivery_backend.dto.ProductDTO;
-import com.tambo.tambo_delivery_backend.dto.CreateProductDtoAdmin;
+import com.tambo.tambo_delivery_backend.dto.request.CreateProductDtoAdmin;
+import com.tambo.tambo_delivery_backend.dto.response.ProductDTO;
 import com.tambo.tambo_delivery_backend.entities.Product;
 
 import java.math.BigDecimal;

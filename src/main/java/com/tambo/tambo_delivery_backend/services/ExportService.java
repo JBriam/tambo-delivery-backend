@@ -22,8 +22,8 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
-import com.tambo.tambo_delivery_backend.dto.BrandDTO;
-import com.tambo.tambo_delivery_backend.dto.ProductDTO;
+import com.tambo.tambo_delivery_backend.dto.response.BrandDTO;
+import com.tambo.tambo_delivery_backend.dto.response.ProductDTO;
 import com.tambo.tambo_delivery_backend.entities.Order;
 import com.tambo.tambo_delivery_backend.entities.OrderStatus;
 

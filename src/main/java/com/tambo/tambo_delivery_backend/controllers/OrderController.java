@@ -6,9 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
-import com.tambo.tambo_delivery_backend.auth.dto.OrderResponse;
-import com.tambo.tambo_delivery_backend.dto.OrderDetails;
-import com.tambo.tambo_delivery_backend.dto.OrderRequest;
+import com.tambo.tambo_delivery_backend.auth.dto.response.OrderResponse;
+import com.tambo.tambo_delivery_backend.dto.request.OrderRequest;
+import com.tambo.tambo_delivery_backend.dto.response.OrderDetails;
 import com.tambo.tambo_delivery_backend.services.OrderService;
 import com.tambo.tambo_delivery_backend.entities.Order;
 import com.tambo.tambo_delivery_backend.services.BoletaPdfService;

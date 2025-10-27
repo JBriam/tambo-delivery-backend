@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tambo.tambo_delivery_backend.dto.CategoryTypeDTO;
-import com.tambo.tambo_delivery_backend.dto.CategoryTypeRequestDTO;
+import com.tambo.tambo_delivery_backend.dto.request.CategoryTypeRequestDTO;
+import com.tambo.tambo_delivery_backend.dto.response.CategoryTypeDTO;
 import com.tambo.tambo_delivery_backend.entities.Category;
 import com.tambo.tambo_delivery_backend.entities.CategoryType;
 import com.tambo.tambo_delivery_backend.mapper.CategoryTypeMapper;

@@ -2,7 +2,7 @@ package com.tambo.tambo_delivery_backend.mapper;
 // com.tambo.tambo_delivery_backend.mapper.CategoryButtonMapper
 
 import com.tambo.tambo_delivery_backend.entities.CategoryButton;
-import com.tambo.tambo_delivery_backend.dto.CategoryButtonDTO;
+import com.tambo.tambo_delivery_backend.dto.response.CategoryButtonDTO;
 import com.tambo.tambo_delivery_backend.entities.Category;
 
 public class CategoryButtonMapper {

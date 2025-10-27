@@ -5,9 +5,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.tambo.tambo_delivery_backend.dto.CategoryDTO;
-import com.tambo.tambo_delivery_backend.dto.CategoryRequestDTO;
-import com.tambo.tambo_delivery_backend.dto.CategoryTypeDTO;
+import com.tambo.tambo_delivery_backend.dto.request.CategoryRequestDTO;
+import com.tambo.tambo_delivery_backend.dto.response.CategoryDTO;
+import com.tambo.tambo_delivery_backend.dto.response.CategoryTypeDTO;
 import com.tambo.tambo_delivery_backend.entities.Category;
 import com.tambo.tambo_delivery_backend.entities.CategoryType;
 
