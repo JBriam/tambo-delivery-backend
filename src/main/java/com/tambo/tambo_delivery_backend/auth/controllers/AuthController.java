@@ -1,9 +1,9 @@
 package com.tambo.tambo_delivery_backend.auth.controllers;
 
-import com.tambo.tambo_delivery_backend.auth.dto.LoginRequest;
-import com.tambo.tambo_delivery_backend.auth.dto.LoginResponse;
-import com.tambo.tambo_delivery_backend.auth.dto.RegistrationRequest;
-import com.tambo.tambo_delivery_backend.auth.dto.UserResponseDto;
+import com.tambo.tambo_delivery_backend.auth.dto.request.LoginRequest;
+import com.tambo.tambo_delivery_backend.auth.dto.request.RegistrationRequest;
+import com.tambo.tambo_delivery_backend.auth.dto.response.LoginResponse;
+import com.tambo.tambo_delivery_backend.auth.dto.response.UserResponseDto;
 import com.tambo.tambo_delivery_backend.auth.entities.User;
 import com.tambo.tambo_delivery_backend.auth.services.LoginService;
 import com.tambo.tambo_delivery_backend.auth.services.UserService;

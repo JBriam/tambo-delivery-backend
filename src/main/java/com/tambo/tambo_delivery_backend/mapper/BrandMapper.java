@@ -2,8 +2,8 @@ package com.tambo.tambo_delivery_backend.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.tambo.tambo_delivery_backend.dto.BrandDTO;
-import com.tambo.tambo_delivery_backend.dto.BrandRequest;
+import com.tambo.tambo_delivery_backend.dto.request.BrandRequest;
+import com.tambo.tambo_delivery_backend.dto.response.BrandDTO;
 import com.tambo.tambo_delivery_backend.entities.Brand;
 
 @Component

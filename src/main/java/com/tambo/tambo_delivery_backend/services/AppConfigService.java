@@ -5,9 +5,9 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.tambo.tambo_delivery_backend.dto.CategoryButtonDTO;
-import com.tambo.tambo_delivery_backend.dto.ProductSectionDTO;
-import com.tambo.tambo_delivery_backend.dto.SliderImageDTO;
+import com.tambo.tambo_delivery_backend.dto.response.CategoryButtonDTO;
+import com.tambo.tambo_delivery_backend.dto.response.ProductSectionDTO;
+import com.tambo.tambo_delivery_backend.dto.response.SliderImageDTO;
 import com.tambo.tambo_delivery_backend.entities.Category;
 import com.tambo.tambo_delivery_backend.entities.CategoryButton;
 import com.tambo.tambo_delivery_backend.entities.ProductSection;

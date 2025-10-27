@@ -1,8 +1,8 @@
 package com.tambo.tambo_delivery_backend.mapper;
 
 import com.tambo.tambo_delivery_backend.auth.entities.User;
-import com.tambo.tambo_delivery_backend.dto.AddressDTO;
-import com.tambo.tambo_delivery_backend.dto.AddressRequestDTO;
+import com.tambo.tambo_delivery_backend.dto.request.AddressRequestDTO;
+import com.tambo.tambo_delivery_backend.dto.response.AddressDTO;
 import com.tambo.tambo_delivery_backend.entities.Address;
 import org.springframework.stereotype.Component;
 

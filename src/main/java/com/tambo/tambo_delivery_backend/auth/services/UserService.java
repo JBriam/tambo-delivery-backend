@@ -7,13 +7,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerErrorException;
 
-import com.tambo.tambo_delivery_backend.auth.dto.RegistrationRequest;
-import com.tambo.tambo_delivery_backend.auth.dto.UserResponseDto;
-import com.tambo.tambo_delivery_backend.auth.dto.UserUpdateDto;
+import com.tambo.tambo_delivery_backend.auth.dto.request.RegistrationRequest;
+import com.tambo.tambo_delivery_backend.auth.dto.request.UserUpdateDto;
+import com.tambo.tambo_delivery_backend.auth.dto.response.UserResponseDto;
 import com.tambo.tambo_delivery_backend.auth.entities.User;
 import com.tambo.tambo_delivery_backend.auth.helper.VerificationCodeGenerator;
 import com.tambo.tambo_delivery_backend.auth.repositories.UserDetailRepository;
-import com.tambo.tambo_delivery_backend.dto.UserRequestDtoAdmin;
+import com.tambo.tambo_delivery_backend.dto.request.UserRequestDtoAdmin;
 
 @Service
 public class UserService {

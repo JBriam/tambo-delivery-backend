@@ -1,16 +1,16 @@
 package com.tambo.tambo_delivery_backend.mapper;
 
-import com.tambo.tambo_delivery_backend.dto.BrandDTO;
-import com.tambo.tambo_delivery_backend.dto.DiscountDTO;
-import com.tambo.tambo_delivery_backend.dto.ProductDTO;
-import com.tambo.tambo_delivery_backend.dto.CreateProductDtoAdmin;
-import com.tambo.tambo_delivery_backend.dto.ResourceDTO;
+import com.tambo.tambo_delivery_backend.dto.request.CreateProductDtoAdmin;
+import com.tambo.tambo_delivery_backend.dto.response.BrandDTO;
+import com.tambo.tambo_delivery_backend.dto.response.DiscountDTO;
+import com.tambo.tambo_delivery_backend.dto.response.ProductDTO;
+import com.tambo.tambo_delivery_backend.dto.response.ResourceDTO;
 import com.tambo.tambo_delivery_backend.entities.*;
 
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -104,9 +104,9 @@ public class ProductMapper {
         private static BigDecimal calculateDiscountedPrice(Product product) {
                 BigDecimal originalPrice = product.getPrice();
                 Discount activeDiscount = product.getDiscounts().stream()
-                                .filter(d -> d.getIsActive() && d.getStartDate().isBefore(LocalDateTime.now())
+                                .filter(d -> d.getIsActive() && d.getStartDate().isBefore(LocalDate.now())
                                                 &&
-                                                d.getEndDate().isAfter(LocalDateTime.now()))
+                                                d.getEndDate().isAfter(LocalDate.now()))
                                 .findFirst()
                                 .orElse(null);
 
@@ -126,9 +126,9 @@ public class ProductMapper {
         // Obtener el porcentaje de descuento
         private static BigDecimal getPercentageDiscount(Product product) {
                 Discount activeDiscount = product.getDiscounts().stream()
-                                .filter(d -> d.getIsActive() && d.getStartDate().isBefore(LocalDateTime.now())
+                                .filter(d -> d.getIsActive() && d.getStartDate().isBefore(LocalDate.now())
                                                 &&
-                                                d.getEndDate().isAfter(LocalDateTime.now()))
+                                                d.getEndDate().isAfter(LocalDate.now()))
                                 .findFirst()
                                 .orElse(null);
 

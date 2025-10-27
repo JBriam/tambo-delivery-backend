@@ -1,7 +1,7 @@
 package com.tambo.tambo_delivery_backend.mapper;
 
 import com.tambo.tambo_delivery_backend.entities.ProductSection;
-import com.tambo.tambo_delivery_backend.dto.ProductSectionDTO;
+import com.tambo.tambo_delivery_backend.dto.response.ProductSectionDTO;
 import com.tambo.tambo_delivery_backend.entities.Category;
 
 public class ProductSectionMapper {
