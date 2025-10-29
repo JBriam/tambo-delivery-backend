@@ -11,14 +11,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tambo.tambo_delivery_backend.dto.request.CategoryRequestDTO;
 import com.tambo.tambo_delivery_backend.dto.response.CategoryDTO;
 import com.tambo.tambo_delivery_backend.entities.Category;
+import com.tambo.tambo_delivery_backend.entities.CategoryType;
 import com.tambo.tambo_delivery_backend.mapper.CategoryMapper;
 import com.tambo.tambo_delivery_backend.repositories.CategoryRepository;
+import com.tambo.tambo_delivery_backend.repositories.CategoryTypeRepository;
 
 @Service
 public class CategoryService {
 
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private CategoryTypeRepository categoryTypeRepository;
 
     // Obtener todas las categorias
     public List<CategoryDTO> getAllCategories() {
@@ -36,39 +40,39 @@ public class CategoryService {
 
     // Crear una categoria
     @Transactional
-    public CategoryDTO createCategory(CategoryRequestDTO dto) {
-        Category category = CategoryMapper.toEntity(dto);
+    public CategoryDTO createCategory(CategoryRequestDTO request) {
+        // Usar el mapper con el repositorio
+        Category category = CategoryMapper.toEntity(request, categoryTypeRepository);
+
         Category saved = categoryRepository.save(category);
         return CategoryMapper.toDTO(saved);
     }
 
     // Actualizar una categoria por ID
     @Transactional
-    public CategoryDTO updateCategory(UUID id, CategoryRequestDTO dto) {
+    public CategoryDTO updateCategory(UUID id, CategoryRequestDTO categoryData) {
         Category existing = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found"));
+                .orElseThrow(() -> new RuntimeException("Categoría no encontrada con id: " + id));
 
-        // Actualizar campos básicos
-        existing.setName(dto.getName());
-        existing.setDescription(dto.getDescription());
-        existing.setImageUrl(dto.getImageUrl());
+        // Actualizar datos básicos
+        existing.setName(categoryData.getName());
+        existing.setDescription(categoryData.getDescription());
+        existing.setImageUrl(categoryData.getImageUrl());
 
-        // Actualizar tipos de categoría
-        if (dto.getCategoryTypes() != null) {
-            // Limpiar los tipos existentes
-            existing.getCategoryTypes().clear();
+        // ✅ Actualizar tipos sin eliminar los antiguos
+        List<UUID> newTypeIds = categoryData.getCategoryTypeIds();
+        if (newTypeIds != null && !newTypeIds.isEmpty()) {
+            List<CategoryType> newTypes = categoryTypeRepository.findAllById(newTypeIds);
 
-            // Agregar los nuevos tipos
-            dto.getCategoryTypes().forEach(typeDTO -> {
-                var type = new com.tambo.tambo_delivery_backend.entities.CategoryType();
-                type.setName(typeDTO.getName());
-                type.setDescription(typeDTO.getDescription());
-                type.setCategory(existing);
-                existing.getCategoryTypes().add(type);
-            });
+            for (CategoryType newType : newTypes) {
+                boolean exists = existing.getCategoryTypes().stream()
+                        .anyMatch(t -> t.getId().equals(newType.getId()));
+                if (!exists) {
+                    existing.getCategoryTypes().add(newType);
+                }
+            }
         }
 
-        // Guardar cambios
         Category updated = categoryRepository.save(existing);
         return CategoryMapper.toDTO(updated);
     }
