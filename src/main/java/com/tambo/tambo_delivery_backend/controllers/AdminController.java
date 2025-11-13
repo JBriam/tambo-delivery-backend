@@ -597,7 +597,7 @@ public class AdminController {
     public ResponseEntity<ResponseDto> createRole(@RequestBody CreateRoleDto request) {
 
         try {
-            Authority newRole = authorityService.createAuthority(request.getCode(), request.getDescription());
+            Authority newRole = authorityService.createAuthority(request.getRoleCode(), request.getRoleDescription());
 
             ResponseDto res = ResponseDto.builder()
                     .message("Rol creado: " + newRole.getRoleCode())
@@ -618,7 +618,7 @@ public class AdminController {
             @RequestBody CreateRoleDto request) {
 
         try {
-            Authority role = authorityService.updateRole(id, request.getCode(), request.getDescription());
+            Authority role = authorityService.updateRole(id, request.getRoleCode(), request.getRoleDescription());
 
             ResponseDto res = ResponseDto.builder()
                     .message("Rol actualizado: " + role.getRoleCode())
