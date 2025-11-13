@@ -22,6 +22,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -120,10 +121,13 @@ public class ProductServiceImpl implements ProductService {
                 return product;
         }
 
-        // Actualizar un producto por ID
         @Override
+        @Transactional
         public ProductDTO updateProduct(UUID id, CreateProductDtoAdmin dto) {
-                Product existing = productRepository.findById(id).orElseThrow();
+                Product existing = productRepository.findById(id)
+                                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+                // ========== ACTUALIZAR DATOS BÁSICOS ==========
                 existing.setSlug(dto.getSlug());
                 existing.setName(dto.getName());
                 existing.setDescription(dto.getDescription());
@@ -132,37 +136,66 @@ public class ProductServiceImpl implements ProductService {
                 existing.setNewArrival(dto.getIsNewArrival());
                 existing.setActive(dto.getIsActive());
 
+                // ========== ACTUALIZAR BRAND ==========
                 Brand brand = brandRepository.findById(dto.getBrandId())
                                 .orElseThrow(() -> new RuntimeException("Marca no encontrada"));
                 existing.setBrand(brand);
 
-                Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow();
+                // ========== ACTUALIZAR CATEGORY ==========
+                Category category = categoryRepository.findById(dto.getCategoryId())
+                                .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
                 existing.setCategory(category);
+
+                // ========== ACTUALIZAR CATEGORY TYPE ==========
                 CategoryType categoryType = dto.getCategoryTypeId() != null
                                 ? categoryTypeRepository.findById(dto.getCategoryTypeId()).orElse(null)
                                 : null;
                 existing.setCategoryType(categoryType);
 
-                List<Discount> discounts = dto.getDiscountIds() != null
-                                ? discountRepository.findAllById(dto.getDiscountIds())
-                                : List.of();
-                existing.setDiscounts(discounts);
-
-                // Eliminar recursos antiguos
+                // ========== ACTUALIZAR RESOURCES ==========
+                // Eliminar recursos antiguos (orphanRemoval = true se encarga)
                 existing.getResources().clear();
 
-                // Agregar nuevos recursos
-                existing.getResources().addAll(
-                                dto.getResources().stream()
-                                                .map(rr -> Resources.builder()
-                                                                .name(rr.getName())
-                                                                .url(rr.getUrl())
-                                                                .isPrimary(rr.getIsPrimary())
-                                                                .type(rr.getType())
-                                                                .product(existing)
-                                                                .build())
-                                                .collect(Collectors.toList()));
+                // Agregar nuevos recursos si existen
+                if (dto.getResources() != null && !dto.getResources().isEmpty()) {
+                        existing.getResources().addAll(
+                                        dto.getResources().stream()
+                                                        .map(rr -> Resources.builder()
+                                                                        .name(rr.getName())
+                                                                        .url(rr.getUrl())
+                                                                        .isPrimary(rr.getIsPrimary())
+                                                                        .type(rr.getType())
+                                                                        .product(existing)
+                                                                        .build())
+                                                        .collect(Collectors.toList()));
+                }
 
+                // ========== ACTUALIZAR DISCOUNTS (ORDEN CORRECTO) ==========
+
+                // PASO 1: Guardar referencia a los descuentos ANTIGUOS antes de modificar
+                List<Discount> oldDiscounts = new ArrayList<>(existing.getDiscounts());
+
+                // PASO 2: Remover este producto de los descuentos antiguos
+                for (Discount oldDiscount : oldDiscounts) {
+                        oldDiscount.getProducts().remove(existing);
+                }
+
+                // PASO 3: Buscar los nuevos descuentos
+                List<Discount> newDiscounts = dto.getDiscountIds() != null && !dto.getDiscountIds().isEmpty()
+                                ? discountRepository.findAllById(dto.getDiscountIds())
+                                : new ArrayList<>();
+
+                // PASO 4: Actualizar el lado del Product
+                existing.setDiscounts(newDiscounts);
+
+                // PASO 5: Añadir este producto a los nuevos descuentos (sincronización)
+                for (Discount discount : newDiscounts) {
+                        if (!discount.getProducts().contains(existing)) {
+                                discount.getProducts().add(existing);
+                        }
+                }
+
+                // ========== GUARDAR ==========
                 Product updated = productRepository.save(existing);
                 return ProductMapper.toDTO(updated);
         }

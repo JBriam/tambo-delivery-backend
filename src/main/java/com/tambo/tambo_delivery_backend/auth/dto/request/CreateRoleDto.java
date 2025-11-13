@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class CreateRoleDto {
 
-    private String code;
-    private String description;
+    private String roleCode;
+    private String roleDescription;
 
 }
