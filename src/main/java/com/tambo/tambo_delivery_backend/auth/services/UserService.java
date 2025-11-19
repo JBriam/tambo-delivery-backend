@@ -218,6 +218,12 @@ public class UserService {
     public User createUserByAdmin(UserRequestDtoAdmin request) {
 
         try {
+            // Verificar si el email ya existe
+            User existingUser = userDetailRepository.findByEmail(request.getEmail());
+            if (existingUser != null) {
+                throw new RuntimeException("El email ya está registrado: " + request.getEmail());
+            }
+
             User user = new User();
             user.setFirstName(request.getFirstName());
             user.setLastName(request.getLastName());
@@ -225,7 +231,7 @@ public class UserService {
             user.setPhoneNumber(request.getPhoneNumber());
             user.setEmail(request.getEmail());
             // Si el admin no especifica enabled, por defecto será true
-            user.setEnabled(request.getEnabled() != null ? request.getEnabled() : true);
+            user.setEnabled(Boolean.TRUE.equals(request.getEnabled()) || request.getEnabled() == null);
             user.setPassword(passwordEncoder.encode("123456789"));
             user.setProvider("manual");
             user.setAuthorities(authorityService.getRequestedAuthorities(request.getRoles()));
@@ -235,7 +241,7 @@ public class UserService {
             return created;
 
         } catch (RuntimeException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
 
     };
@@ -264,5 +270,35 @@ public class UserService {
         }
 
     };
+
+    // Soft delete - Desactivar usuario
+    public void deleteUserByAdmin(String email) {
+        User user = userDetailRepository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+        user.setEnabled(false);
+        userDetailRepository.save(user);
+    }
+
+    // Activar usuario
+    public User activateUser(String email) {
+        User user = userDetailRepository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+        user.setEnabled(true);
+        return userDetailRepository.save(user);
+    }
+
+    // Cambiar estado de usuario (toggle)
+    public User toggleUserStatus(String email) {
+        User user = userDetailRepository.findByEmail(email);
+        if (user == null) {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+        user.setEnabled(!user.isEnabled());
+        return userDetailRepository.save(user);
+    }
 
 }
