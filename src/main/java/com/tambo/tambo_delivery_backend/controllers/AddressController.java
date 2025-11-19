@@ -1,7 +1,7 @@
 package com.tambo.tambo_delivery_backend.controllers;
 
-import com.tambo.tambo_delivery_backend.dto.AddressDTO;
-import com.tambo.tambo_delivery_backend.dto.AddressRequestDTO;
+import com.tambo.tambo_delivery_backend.dto.request.AddressRequestDTO;
+import com.tambo.tambo_delivery_backend.dto.response.AddressDTO;
 import com.tambo.tambo_delivery_backend.services.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

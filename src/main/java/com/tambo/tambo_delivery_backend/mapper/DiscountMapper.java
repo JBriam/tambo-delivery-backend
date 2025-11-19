@@ -5,9 +5,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.tambo.tambo_delivery_backend.dto.DiscountDTO;
-import com.tambo.tambo_delivery_backend.dto.DiscountRequestDTO;
-import com.tambo.tambo_delivery_backend.dto.ProductDiscountDTO;
+import com.tambo.tambo_delivery_backend.dto.request.DiscountRequestDTO;
+import com.tambo.tambo_delivery_backend.dto.response.DiscountDTO;
+import com.tambo.tambo_delivery_backend.dto.response.ProductDiscountDTO;
 import com.tambo.tambo_delivery_backend.entities.Discount;
 import com.tambo.tambo_delivery_backend.entities.Product;
 import com.tambo.tambo_delivery_backend.repositories.ProductRepository;

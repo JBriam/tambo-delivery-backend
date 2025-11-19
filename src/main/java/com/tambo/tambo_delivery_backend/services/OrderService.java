@@ -13,12 +13,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tambo.tambo_delivery_backend.auth.dto.OrderResponse;
+import com.tambo.tambo_delivery_backend.auth.dto.response.OrderResponse;
 import com.tambo.tambo_delivery_backend.auth.entities.User;
 import com.tambo.tambo_delivery_backend.auth.services.EmailService;
-import com.tambo.tambo_delivery_backend.dto.OrderDetails;
-import com.tambo.tambo_delivery_backend.dto.OrderItemDetail;
-import com.tambo.tambo_delivery_backend.dto.OrderRequest;
+import com.tambo.tambo_delivery_backend.dto.request.OrderRequest;
+import com.tambo.tambo_delivery_backend.dto.response.OrderDetails;
+import com.tambo.tambo_delivery_backend.dto.response.OrderItemDetail;
 import com.tambo.tambo_delivery_backend.entities.Order;
 import com.tambo.tambo_delivery_backend.entities.OrderItem;
 import com.tambo.tambo_delivery_backend.entities.OrderStatus;

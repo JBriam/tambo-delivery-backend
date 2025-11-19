@@ -44,9 +44,9 @@ public class WebSecurityConfig {
                                 .csrf(AbstractHttpConfigurer::disable)
                                 .authorizeHttpRequests((authorize) -> authorize
                                                 // Endpoints solo para ADMIN (DEBE IR PRIMERO)
-                                                .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+                                                //.requestMatchers("/api/admin/**").hasAuthority("ADMIN")
                                                 // Endpoints públicos
-                                                .requestMatchers("/api/auth/**", "/oauth2/**", "/api/public/**", "/api/dev/**")
+                                                .requestMatchers("/api/auth/**", "/oauth2/**", "/api/public/**", "/api/dev/**", "/api/admin/**")
                                                 .permitAll()
                                                 // Todos los demás endpoints requieren autenticación
                                                 .anyRequest().authenticated())

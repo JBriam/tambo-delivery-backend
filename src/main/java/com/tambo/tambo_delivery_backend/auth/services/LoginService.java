@@ -9,8 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ServerErrorException;
 
-import com.tambo.tambo_delivery_backend.auth.dto.LoginRequest;
-import com.tambo.tambo_delivery_backend.auth.dto.LoginResponse;
+import com.tambo.tambo_delivery_backend.auth.dto.request.LoginRequest;
+import com.tambo.tambo_delivery_backend.auth.dto.response.LoginResponse;
 import com.tambo.tambo_delivery_backend.auth.entities.User;
 import com.tambo.tambo_delivery_backend.auth.helper.JWTTokenHelper;
 import com.tambo.tambo_delivery_backend.auth.repositories.UserDetailRepository;

@@ -1,8 +1,8 @@
 package com.tambo.tambo_delivery_backend.services;
 
 import com.tambo.tambo_delivery_backend.auth.entities.User;
-import com.tambo.tambo_delivery_backend.dto.AddressDTO;
-import com.tambo.tambo_delivery_backend.dto.AddressRequestDTO;
+import com.tambo.tambo_delivery_backend.dto.request.AddressRequestDTO;
+import com.tambo.tambo_delivery_backend.dto.response.AddressDTO;
 import com.tambo.tambo_delivery_backend.entities.Address;
 import com.tambo.tambo_delivery_backend.mapper.AddressMapper;
 import com.tambo.tambo_delivery_backend.repositories.AddressRepository;

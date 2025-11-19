@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tambo.tambo_delivery_backend.auth.dto.ResponseDto;
-import com.tambo.tambo_delivery_backend.dto.CategoryDTO;
-import com.tambo.tambo_delivery_backend.dto.ProductDTO;
-import com.tambo.tambo_delivery_backend.dto.ProductSectionDTO;
+import com.tambo.tambo_delivery_backend.auth.dto.response.ResponseDto;
+import com.tambo.tambo_delivery_backend.dto.response.CategoryDTO;
+import com.tambo.tambo_delivery_backend.dto.response.ProductDTO;
+import com.tambo.tambo_delivery_backend.dto.response.ProductSectionDTO;
 import com.tambo.tambo_delivery_backend.services.AppConfigService;
 import com.tambo.tambo_delivery_backend.services.CategoryService;
 import com.tambo.tambo_delivery_backend.services.ProductService;

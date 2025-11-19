@@ -20,28 +20,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tambo.tambo_delivery_backend.auth.dto.CreateRoleDto;
-import com.tambo.tambo_delivery_backend.auth.dto.ResponseDto;
-import com.tambo.tambo_delivery_backend.auth.dto.UserDetailsDto;
+import com.tambo.tambo_delivery_backend.auth.dto.request.CreateRoleDto;
+import com.tambo.tambo_delivery_backend.auth.dto.response.ResponseDto;
+import com.tambo.tambo_delivery_backend.auth.dto.response.UserDetailsDto;
 import com.tambo.tambo_delivery_backend.auth.entities.Authority;
 import com.tambo.tambo_delivery_backend.auth.entities.User;
 import com.tambo.tambo_delivery_backend.auth.services.AuthorityService;
 import com.tambo.tambo_delivery_backend.auth.services.UserService;
-import com.tambo.tambo_delivery_backend.dto.BrandDTO;
-import com.tambo.tambo_delivery_backend.dto.BrandRequest;
-import com.tambo.tambo_delivery_backend.dto.CategoryButtonDTO;
-import com.tambo.tambo_delivery_backend.dto.CategoryDTO;
-import com.tambo.tambo_delivery_backend.dto.CategoryRequestDTO;
-import com.tambo.tambo_delivery_backend.dto.CreateProductDtoAdmin;
-import com.tambo.tambo_delivery_backend.dto.DiscountDTO;
-import com.tambo.tambo_delivery_backend.dto.DiscountRequestDTO;
-import com.tambo.tambo_delivery_backend.dto.ProductDTO;
-import com.tambo.tambo_delivery_backend.dto.ProductSectionDTO;
-import com.tambo.tambo_delivery_backend.dto.SliderImageDTO;
-import com.tambo.tambo_delivery_backend.dto.UserRequestDtoAdmin;
+import com.tambo.tambo_delivery_backend.dto.request.BrandRequest;
+import com.tambo.tambo_delivery_backend.dto.request.CategoryRequestDTO;
+import com.tambo.tambo_delivery_backend.dto.request.CategoryTypeRequestDTO;
+import com.tambo.tambo_delivery_backend.dto.request.CreateProductDtoAdmin;
+import com.tambo.tambo_delivery_backend.dto.request.DiscountRequestDTO;
+import com.tambo.tambo_delivery_backend.dto.request.UserRequestDtoAdmin;
+import com.tambo.tambo_delivery_backend.dto.response.BrandDTO;
+import com.tambo.tambo_delivery_backend.dto.response.CategoryButtonDTO;
+import com.tambo.tambo_delivery_backend.dto.response.CategoryDTO;
+import com.tambo.tambo_delivery_backend.dto.response.CategoryTypeDTO;
+import com.tambo.tambo_delivery_backend.dto.response.DiscountDTO;
+import com.tambo.tambo_delivery_backend.dto.response.ProductDTO;
+import com.tambo.tambo_delivery_backend.dto.response.ProductSectionDTO;
+import com.tambo.tambo_delivery_backend.dto.response.SliderImageDTO;
 import com.tambo.tambo_delivery_backend.services.AppConfigService;
 import com.tambo.tambo_delivery_backend.services.BrandService;
 import com.tambo.tambo_delivery_backend.services.CategoryService;
+import com.tambo.tambo_delivery_backend.services.CategoryTypeService;
 import com.tambo.tambo_delivery_backend.services.DiscountService;
 import com.tambo.tambo_delivery_backend.services.ProductService;
 
@@ -69,6 +72,9 @@ public class AdminController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private CategoryTypeService categoryTypeService;
 
     @Autowired
     private AppConfigService configService;
@@ -202,14 +208,11 @@ public class AdminController {
 
     // Crear un nueva categoria
     @PostMapping("/category/create")
-    public ResponseEntity<ResponseDto> createCategory(@RequestBody CategoryRequestDTO request) {
+    public ResponseEntity<?> createCategory(@RequestBody CategoryRequestDTO request) {
 
         try {
             CategoryDTO category = categoryService.createCategory(request);
-            ResponseDto res = ResponseDto.builder()
-                    .message("Categoria creado: " + category.getName())
-                    .build();
-            return new ResponseEntity<>(res, HttpStatus.CREATED);
+            return new ResponseEntity<>(category, HttpStatus.CREATED);
         } catch (RuntimeException e) {
             ResponseDto res = ResponseDto.builder()
                     .message("Error al crear la categoria: " + e.getMessage())
@@ -221,15 +224,11 @@ public class AdminController {
 
     // Actualizar una categoria
     @PutMapping("/category/update/{id}")
-    public ResponseEntity<ResponseDto> updateCategory(@PathVariable UUID id, @RequestBody CategoryRequestDTO request) {
+    public ResponseEntity<?> updateCategory(@PathVariable UUID id, @RequestBody CategoryRequestDTO request) {
 
         try {
             CategoryDTO category = categoryService.updateCategory(id, request);
-
-            ResponseDto res = ResponseDto.builder()
-                    .message("Categoria actualizado: " + category.getName())
-                    .build();
-            return new ResponseEntity<>(res, HttpStatus.OK);
+            return new ResponseEntity<>(category, HttpStatus.OK);
         } catch (RuntimeException e) {
             ResponseDto res = ResponseDto.builder()
                     .message("Error al actualizar la categoria: " + e.getMessage())
@@ -257,6 +256,102 @@ public class AdminController {
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    // ------------------------------ CATEGORY TYPE -----------------------------
+
+    // Obtener todos los tipos de categoría
+    @GetMapping("/category-type/get-all")
+    public ResponseEntity<?> getAllCategoryTypes() {
+        try {
+            List<CategoryTypeDTO> categoryTypes = categoryTypeService.getAllCategoryTypes();
+            return new ResponseEntity<>(categoryTypes, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al obtener los tipos de categoría: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Obtener tipos de categoría por ID de categoría
+    @GetMapping("/category-type/by-category/{categoryId}")
+    public ResponseEntity<?> getCategoryTypesByCategoryId(@PathVariable UUID categoryId) {
+        try {
+            List<CategoryTypeDTO> categoryTypes = categoryTypeService.getCategoryTypesByCategoryId(categoryId);
+            return new ResponseEntity<>(categoryTypes, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al obtener los tipos de categoría: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Obtener un tipo de categoría por ID
+    @GetMapping("/category-type/{id}")
+    public ResponseEntity<?> getCategoryTypeById(@PathVariable UUID id) {
+        try {
+            CategoryTypeDTO categoryType = categoryTypeService.getCategoryTypeById(id);
+            return new ResponseEntity<>(categoryType, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al obtener el tipo de categoría: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Crear un nuevo tipo de categoría
+    @PostMapping("/category-type/create")
+    public ResponseEntity<ResponseDto> createCategoryType(@RequestBody CategoryTypeRequestDTO request) {
+        try {
+            CategoryTypeDTO categoryType = categoryTypeService.createCategoryType(request);
+            ResponseDto res = ResponseDto.builder()
+                    .message("Tipo de categoría creado: " + categoryType.getName())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al crear el tipo de categoría: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Actualizar un tipo de categoría
+    @PutMapping("/category-type/update/{id}")
+    public ResponseEntity<ResponseDto> updateCategoryType(@PathVariable UUID id,
+            @RequestBody CategoryTypeRequestDTO request) {
+        try {
+            CategoryTypeDTO categoryType = categoryTypeService.updateCategoryType(id, request);
+            ResponseDto res = ResponseDto.builder()
+                    .message("Tipo de categoría actualizado: " + categoryType.getName())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al actualizar el tipo de categoría: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Eliminar un tipo de categoría
+    @DeleteMapping("/category-type/delete/{id}")
+    public ResponseEntity<ResponseDto> deleteCategoryType(@PathVariable UUID id) {
+        try {
+            categoryTypeService.deleteCategoryType(id);
+            ResponseDto res = ResponseDto.builder()
+                    .message("Tipo de categoría eliminado: " + id)
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al eliminar el tipo de categoría: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
     }
 
     // ------------------------------ DISCOUNTS -----------------------------
@@ -355,7 +450,7 @@ public class AdminController {
     // ------------------------------ PRODUCT -----------------------------
 
     // Obtener todos los productos por filtros
-    @GetMapping("/product")
+    @GetMapping("/product/get-all")
     public ResponseEntity<?> getAllProducts(
             @RequestParam(required = false) UUID categoryId,
             @RequestParam(required = false) UUID typeId,
@@ -502,7 +597,7 @@ public class AdminController {
     public ResponseEntity<ResponseDto> createRole(@RequestBody CreateRoleDto request) {
 
         try {
-            Authority newRole = authorityService.createAuthority(request.getCode(), request.getDescription());
+            Authority newRole = authorityService.createAuthority(request.getRoleCode(), request.getRoleDescription());
 
             ResponseDto res = ResponseDto.builder()
                     .message("Rol creado: " + newRole.getRoleCode())
@@ -523,7 +618,7 @@ public class AdminController {
             @RequestBody CreateRoleDto request) {
 
         try {
-            Authority role = authorityService.updateRole(id, request.getCode(), request.getDescription());
+            Authority role = authorityService.updateRole(id, request.getRoleCode(), request.getRoleDescription());
 
             ResponseDto res = ResponseDto.builder()
                     .message("Rol actualizado: " + role.getRoleCode())
@@ -706,8 +801,18 @@ public class AdminController {
                     .build();
             return new ResponseEntity<>(res, HttpStatus.CREATED);
         } catch (RuntimeException e) {
+            String errorMessage = e.getMessage();
+            
+            // Detectar error de email duplicado
+            if (errorMessage != null && errorMessage.contains("ya está registrado")) {
+                ResponseDto res = ResponseDto.builder()
+                        .message(errorMessage)
+                        .build();
+                return new ResponseEntity<>(res, HttpStatus.CONFLICT); // 409
+            }
+            
             ResponseDto res = ResponseDto.builder()
-                    .message("Error al crear usuario: " + e.getMessage())
+                    .message("Error al crear usuario: " + errorMessage)
                     .build();
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
@@ -734,6 +839,58 @@ public class AdminController {
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    // Desactivar un usuario (soft delete)
+    @DeleteMapping("/users/delete/{email}")
+    public ResponseEntity<ResponseDto> deleteUser(@PathVariable String email) {
+        try {
+            userService.deleteUserByAdmin(email);
+            ResponseDto res = ResponseDto.builder()
+                    .message("Usuario desactivado: " + email)
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al desactivar el usuario: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Activar un usuario
+    @PutMapping("/users/activate/{email}")
+    public ResponseEntity<ResponseDto> activateUser(@PathVariable String email) {
+        try {
+            User user = userService.activateUser(email);
+            ResponseDto res = ResponseDto.builder()
+                    .message("Usuario activado: " + user.getEmail())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al activar el usuario: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Cambiar estado de usuario (activar/desactivar)
+    @PutMapping("/users/toggle-status/{email}")
+    public ResponseEntity<ResponseDto> toggleUserStatus(@PathVariable String email) {
+        try {
+            User user = userService.toggleUserStatus(email);
+            String status = user.isEnabled() ? "activado" : "desactivado";
+            ResponseDto res = ResponseDto.builder()
+                    .message("Usuario " + status + ": " + user.getEmail())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al cambiar estado del usuario: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
     }
 
     // -------------- SLIDER ------------------------------------
