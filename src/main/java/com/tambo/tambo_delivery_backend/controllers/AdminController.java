@@ -801,8 +801,18 @@ public class AdminController {
                     .build();
             return new ResponseEntity<>(res, HttpStatus.CREATED);
         } catch (RuntimeException e) {
+            String errorMessage = e.getMessage();
+            
+            // Detectar error de email duplicado
+            if (errorMessage != null && errorMessage.contains("ya está registrado")) {
+                ResponseDto res = ResponseDto.builder()
+                        .message(errorMessage)
+                        .build();
+                return new ResponseEntity<>(res, HttpStatus.CONFLICT); // 409
+            }
+            
             ResponseDto res = ResponseDto.builder()
-                    .message("Error al crear usuario: " + e.getMessage())
+                    .message("Error al crear usuario: " + errorMessage)
                     .build();
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
@@ -829,6 +839,58 @@ public class AdminController {
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
 
+    }
+
+    // Desactivar un usuario (soft delete)
+    @DeleteMapping("/users/delete/{email}")
+    public ResponseEntity<ResponseDto> deleteUser(@PathVariable String email) {
+        try {
+            userService.deleteUserByAdmin(email);
+            ResponseDto res = ResponseDto.builder()
+                    .message("Usuario desactivado: " + email)
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al desactivar el usuario: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Activar un usuario
+    @PutMapping("/users/activate/{email}")
+    public ResponseEntity<ResponseDto> activateUser(@PathVariable String email) {
+        try {
+            User user = userService.activateUser(email);
+            ResponseDto res = ResponseDto.builder()
+                    .message("Usuario activado: " + user.getEmail())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al activar el usuario: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // Cambiar estado de usuario (activar/desactivar)
+    @PutMapping("/users/toggle-status/{email}")
+    public ResponseEntity<ResponseDto> toggleUserStatus(@PathVariable String email) {
+        try {
+            User user = userService.toggleUserStatus(email);
+            String status = user.isEnabled() ? "activado" : "desactivado";
+            ResponseDto res = ResponseDto.builder()
+                    .message("Usuario " + status + ": " + user.getEmail())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al cambiar estado del usuario: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
     }
 
     // -------------- SLIDER ------------------------------------
