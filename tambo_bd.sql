@@ -52,7 +52,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `brands` WRITE;
 /*!40000 ALTER TABLE `brands` DISABLE KEYS */;
-INSERT INTO `brands` VALUES (_binary '��I��8Im','','https://www.svgrepo.com/show/489282/brand.svg','Marca Prueba');
+INSERT INTO `brands` VALUES (_binary '��I��8Im','','https://upload.wikimedia.org/wikipedia/commons/f/f4/Marca_Per%C3%BA.jpg','Marca Prueba');
 /*!40000 ALTER TABLE `brands` ENABLE KEYS */;
 UNLOCK TABLES;
 
