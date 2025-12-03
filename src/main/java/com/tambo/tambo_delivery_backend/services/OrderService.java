@@ -72,7 +72,7 @@ public class OrderService {
         // .orElseThrow(BadRequestException::new);
 
         Order order = Order.builder()
-                .orderDate(orderRequest.getOrderDate())
+                .orderDate(orderRequest.getOrderDate() != null ? orderRequest.getOrderDate() : new Date())
                 .user(user)
                 // .address(address != null ? address : null)
                 .latitude(orderRequest.getLatitude())
@@ -93,11 +93,17 @@ public class OrderService {
         List<OrderItem> orderItems = orderRequest.getOrderItemRequests().stream().map(orderItemRequest -> {
             try {
                 Product product = productService.getProductEntityById(orderItemRequest.getProductId());
+                
+                // Si no viene itemPrice, usar el precio del producto
+                Double itemPrice = orderItemRequest.getItemPrice() != null 
+                    ? orderItemRequest.getItemPrice() 
+                    : product.getPrice().doubleValue();
+                
                 OrderItem orderItem = OrderItem.builder()
                         .product(product)
                         .quantity(orderItemRequest.getQuantity())
                         .order(order)
-                        .itemPrice(orderItemRequest.getItemPrice())
+                        .itemPrice(itemPrice)
                         .build();
                 return orderItem;
             } catch (Exception e) {

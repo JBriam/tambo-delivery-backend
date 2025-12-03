@@ -133,7 +133,8 @@ public class UserService {
             user.setVerificationCode(code);
             user.setAuthorities(authorityService.getUserAuthority());
             userDetailRepository.save(user);
-            emailService.sendEmail(user);
+            // No envía email en modo desarrollo
+            // emailService.sendEmail(user);
 
             return UserResponseDto.builder()
                     .code(200)
