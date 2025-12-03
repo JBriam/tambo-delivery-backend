@@ -46,7 +46,8 @@ public class WebSecurityConfig {
                                                 // Endpoints solo para ADMIN (DEBE IR PRIMERO)
                                                 //.requestMatchers("/api/admin/**").hasAuthority("ADMIN")
                                                 // Endpoints públicos
-                                                .requestMatchers("/api/auth/**", "/oauth2/**", "/api/public/**", "/api/dev/**", "/api/admin/**")
+                                                .requestMatchers("/api/auth/**", "/oauth2/**", "/api/public/**", "/api/dev/**", "/api/admin/**",
+                                                        "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html")
                                                 .permitAll()
                                                 // Todos los demás endpoints requieren autenticación
                                                 .anyRequest().authenticated())
