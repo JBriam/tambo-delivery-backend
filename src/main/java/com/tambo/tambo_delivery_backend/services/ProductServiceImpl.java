@@ -148,7 +148,8 @@ public class ProductServiceImpl implements ProductService {
 
                 // ========== ACTUALIZAR CATEGORY TYPE ==========
                 CategoryType categoryType = dto.getCategoryTypeId() != null
-                                ? categoryTypeRepository.findById(dto.getCategoryTypeId()).orElse(null)
+                                ? categoryTypeRepository.findById(dto.getCategoryTypeId())
+                                                .orElseThrow(() -> new RuntimeException("Tipo de categoría no encontrado"))
                                 : null;
                 existing.setCategoryType(categoryType);
 
