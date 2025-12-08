@@ -944,7 +944,7 @@ public class AdminController {
             List<OrderDetails> orders = orderService.getAllOrdersSortedByDate();
             
             // Log para debugging
-            System.out.println("Total órdenes encontradas: " + orders.size());
+            // System.out.println("Total órdenes encontradas: " + orders.size());
             
             return new ResponseEntity<>(orders, HttpStatus.OK);
         } catch (Exception e) {
