@@ -38,6 +38,7 @@ import com.tambo.tambo_delivery_backend.dto.response.CategoryButtonDTO;
 import com.tambo.tambo_delivery_backend.dto.response.CategoryDTO;
 import com.tambo.tambo_delivery_backend.dto.response.CategoryTypeDTO;
 import com.tambo.tambo_delivery_backend.dto.response.DiscountDTO;
+import com.tambo.tambo_delivery_backend.dto.response.OrderDetails;
 import com.tambo.tambo_delivery_backend.dto.response.ProductDTO;
 import com.tambo.tambo_delivery_backend.dto.response.ProductSectionDTO;
 import com.tambo.tambo_delivery_backend.dto.response.SliderImageDTO;
@@ -46,6 +47,7 @@ import com.tambo.tambo_delivery_backend.services.BrandService;
 import com.tambo.tambo_delivery_backend.services.CategoryService;
 import com.tambo.tambo_delivery_backend.services.CategoryTypeService;
 import com.tambo.tambo_delivery_backend.services.DiscountService;
+import com.tambo.tambo_delivery_backend.services.OrderService;
 import com.tambo.tambo_delivery_backend.services.ProductService;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -60,6 +62,9 @@ public class AdminController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private OrderService orderService;
 
     @Autowired
     private UserService userService;
@@ -927,5 +932,29 @@ public class AdminController {
     @DeleteMapping("/categories-buttons/{id}")
     public void deleteCategoryButton(@PathVariable UUID id) {
         configService.deleteCategoryButton(id);
+    }
+
+    // -------------- ORDERS ------------------------------------
+
+    // Obtener todas las órdenes ordenadas por fecha descendente
+    @GetMapping("/orders")
+    public ResponseEntity<?> getAllOrders() {
+
+        try {
+            List<OrderDetails> orders = orderService.getAllOrdersSortedByDate();
+            
+            // Log para debugging
+            System.out.println("Total órdenes encontradas: " + orders.size());
+            
+            return new ResponseEntity<>(orders, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Error al obtener órdenes: " + e.getMessage());
+            
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al obtener las órdenes: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
 }

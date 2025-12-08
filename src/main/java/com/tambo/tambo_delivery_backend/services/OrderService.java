@@ -13,7 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.ImmutableList;
 import com.tambo.tambo_delivery_backend.auth.dto.response.OrderResponse;
+import com.tambo.tambo_delivery_backend.auth.dto.response.UserDetailsDto;
 import com.tambo.tambo_delivery_backend.auth.entities.User;
 import com.tambo.tambo_delivery_backend.auth.services.EmailService;
 import com.tambo.tambo_delivery_backend.dto.request.OrderRequest;
@@ -236,6 +238,12 @@ public class OrderService {
         return true;
     }
 
+    public List<OrderDetails> getAllOrders() {
+        return orderRepository.findAll().stream()
+                .map(this::convertToOrderDetails)
+                .collect(ImmutableList.toImmutableList());
+    }
+
     // Método adicional para obtener la orden
     public Order getOrderById(UUID orderId) {
         return orderRepository.findById(orderId)
@@ -280,6 +288,7 @@ public class OrderService {
         return OrderDetails.builder()
                 .id(order.getId())
                 .orderDate(order.getOrderDate())
+                .user(convertUserToDto(order.getUser()))
                 .orderStatus(order.getOrderStatus())
                 .shipmentNumber(order.getShipmentTrackingNumber())
                 .latitude(order.getLatitude())
@@ -310,8 +319,29 @@ public class OrderService {
                 .build();
     }
 
+    private UserDetailsDto convertUserToDto(User user) {
+        if (user == null) {
+            return null;
+        }
+        
+        return UserDetailsDto.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .phoneNumber(user.getPhoneNumber())
+                .profileImageUrl(user.getProfileImageUrl())
+                .enabled(user.isEnabled())
+                .build();
+    }
+
     public List<Order> getAllOrdersByDateDesc() {
         return orderRepository.findAllByOrderByOrderDateDesc();
+    }
+
+    public List<OrderDetails> getAllOrdersSortedByDate() {
+        return orderRepository.findAllByOrderByOrderDateDesc().stream()
+                .map(this::convertToOrderDetails)
+                .collect(Collectors.toList());
     }
 
     public boolean canOrderBeCancelled(UUID orderId) {

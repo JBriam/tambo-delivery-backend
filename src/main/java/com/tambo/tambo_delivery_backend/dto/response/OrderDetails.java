@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.tambo.tambo_delivery_backend.auth.dto.response.UserDetailsDto;
 import com.tambo.tambo_delivery_backend.entities.OrderStatus;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ public class OrderDetails {
 
     private UUID id;
     private Date orderDate;
+    private UserDetailsDto user; // Información del cliente
     private Double latitude;
     private Double longitude;
     private Double totalAmount;
