@@ -11,16 +11,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tambo.tambo_delivery_backend.auth.dto.response.ResponseDto;
 import com.tambo.tambo_delivery_backend.dto.response.CategoryDTO;
+import com.tambo.tambo_delivery_backend.dto.response.CategoryTypeDTO;
 import com.tambo.tambo_delivery_backend.dto.response.ProductDTO;
 import com.tambo.tambo_delivery_backend.dto.response.ProductSectionDTO;
 import com.tambo.tambo_delivery_backend.services.AppConfigService;
 import com.tambo.tambo_delivery_backend.services.CategoryService;
+import com.tambo.tambo_delivery_backend.services.CategoryTypeService;
 import com.tambo.tambo_delivery_backend.services.ProductService;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,6 +41,9 @@ public class PublicController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    private CategoryTypeService categoryTypeService;
 
     // ------------------------------ PRODUCT -----------------------------
 
@@ -103,6 +109,35 @@ public class PublicController {
         } catch (RuntimeException e) {
             ResponseDto res = ResponseDto.builder()
                     .message("Error al obtener las categorías: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // ------------------------------ CATEGORY TYPE -----------------------------
+
+    // Obtener todos los tipos de categoría
+    @GetMapping("/category-type/get-all")
+    public ResponseEntity<?> getAllCategoryTypes() {
+        try {
+            List<CategoryTypeDTO> categoryTypes = categoryTypeService.getAllCategoryTypes();
+            return new ResponseEntity<>(categoryTypes, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al obtener los tipos de categoría: " + e.getMessage())
+                    .build();
+            return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/category-type/by-category/{categoryId}")
+    public ResponseEntity<?> getAllCategoryTypes(@PathVariable UUID categoryId) {
+        try {
+            List<CategoryTypeDTO> categoryTypes = categoryTypeService.getCategoryTypesByCategoryId(categoryId);
+            return new ResponseEntity<>(categoryTypes, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            ResponseDto res = ResponseDto.builder()
+                    .message("Error al obtener los tipos de categoría por categoría: " + e.getMessage())
                     .build();
             return new ResponseEntity<>(res, HttpStatus.BAD_REQUEST);
         }
